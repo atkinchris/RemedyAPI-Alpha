@@ -17,14 +17,18 @@ namespace RemedyAPI {
 
         public void SetUsername( string username ) {
             if ( username.IsNullOrBlank() ) {
-                throw new Exception( "Username must not be blank." );
+                throw new ArgumentException( "Username must not be blank." );
             }
             this._username = username;
         }
 
+        public string GetUsername() {
+            return _username;
+        }
+
         public void SetPassword( string password ) {
             if ( password.IsNullOrBlank() ) {
-                throw new Exception( "Username must not be blank." );
+                throw new ArgumentException( "Password must not be blank." );
             }
             this._password = password;
         }
