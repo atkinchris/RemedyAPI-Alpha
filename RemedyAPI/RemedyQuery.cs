@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Text.RegularExpressions;
 
@@ -9,6 +10,8 @@ namespace RemedyAPI {
         private string _form;
         private string _username;
         private string _password;
+
+        private List<string> _groups;
 
 
         public RemedyQuery( string username, string password ) {
@@ -53,6 +56,41 @@ namespace RemedyAPI {
                 throw new ArgumentException( "Form name contains invalid characers." );
             }
             this._server = form;
+        }
+
+        public void AddGroup( string group ) {
+            if ( group.IsNullOrBlank() ) {
+                throw new ArgumentException( "Group name must not be blank." );
+            }
+            else if ( !Regex.IsMatch( group, @"^[a-zA-Z0-9\:\-\&]+$" ) ) {
+                throw new ArgumentException( string.Format( "Group name contains invalid characers.", group ) );
+            }
+            _groups.Add( group );
+        }
+
+        public void AddGroups( string[] groups ) {
+            foreach ( var group in groups ) {
+                AddGroup( group );
+            }
+        }
+
+        public void DeleteGroup( string group ) {
+            if ( _groups.Contains( group ) ) {
+                _groups.Remove( group );
+            }
+            else {
+                throw new ArgumentException( string.Format( "Group name {0} does not exist.", group ) );
+            }
+        }
+
+        public void DeleteGroups( string[] groups ) {
+            foreach ( var group in groups ) {
+                DeleteGroup( group );
+            }
+        }
+
+        public void ClearGroups() {
+            _groups.Clear();
         }
 
     }
