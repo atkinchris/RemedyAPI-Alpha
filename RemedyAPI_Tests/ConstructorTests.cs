@@ -1,6 +1,5 @@
-﻿using System;
-using RemedyAPI;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace RemedyAPI_Tests {
     [TestClass]
