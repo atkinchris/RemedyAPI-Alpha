@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace RemedyAPI {
     public class RemedyQuery {
@@ -192,6 +193,19 @@ namespace RemedyAPI {
         /// </summary>
         public void ExecuteQuerys() {
             ar.Login( _server, _username, _password );
+
+            var groupQuery = new StringBuilder();
+            if ( _groups.Count != 0 ) {
+                groupQuery.Append( "(" );
+                foreach ( var group in _groups ) {
+                    groupQuery.AppendFormat( "(\'{0}\' = \"{1}\")", "1000000217", group );
+                    if ( !group.Equals( _groups.Last()) ) {
+                        groupQuery.Append( " OR " );
+                    }
+                }
+                groupQuery.Append( ")" );
+            }
+
             // Query execution.
             ar.Logout();
         }
