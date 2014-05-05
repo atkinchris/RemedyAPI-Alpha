@@ -1,6 +1,5 @@
 ﻿using BMC.ARSystem;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -305,7 +304,8 @@ namespace RemedyAPI {
             else {
                 queryString = query.queryString;
             }
-            query.results = server.GetListEntryWithFields( _form, queryString, _fields.ToArray(), 0, _maxRecords );
+            var results = server.GetListEntryWithFields( _form, queryString, _fields.ToArray(), 0, _maxRecords );
+            query.SetResults( results );
         }
         #endregion
     }
