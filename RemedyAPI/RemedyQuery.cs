@@ -20,7 +20,7 @@ namespace RemedyAPI {
         // Filters
         private List<string> _groups = new List<string>();
         private List<int> _fields = new List<int>();
-        private Dictionary<string, Query> _querys = new Dictionary<string, Query>();
+        private Dictionary<string, Query> _queries = new Dictionary<string, Query>();
 
         // BMC AR Server Objects
         Server server = new Server();
@@ -242,7 +242,7 @@ namespace RemedyAPI {
         /// <param name="query">Query string</param>
         public void AddQuery( string title, string query ) {
             var queryObject = new Query( query );
-            _querys.Add( title, queryObject );
+            _queries.Add( title, queryObject );
         }
 
         /// <summary>
@@ -250,8 +250,8 @@ namespace RemedyAPI {
         /// </summary>
         /// <param name="title">Query title</param>
         public void DeleteQuery( string title ) {
-            if ( _querys.ContainsKey( title ) ) {
-                _querys.Remove( title );
+            if ( _queries.ContainsKey( title ) ) {
+                _queries.Remove( title );
             }
             else {
                 throw new ArgumentException( string.Format( "Query {0} does not exist.", title ) );
@@ -263,18 +263,18 @@ namespace RemedyAPI {
         /// </summary>
         /// <returns>List of query title strings.</returns>
         public List<string> GetQueries() {
-            return _querys.Keys.ToList();
+            return _queries.Keys.ToList();
         }
         #endregion
 
         #region Execution Methods
         /// <summary>
-        /// Execute all querys against the Remedy server.
+        /// Execute all queries against the Remedy server.
         /// </summary>
-        public void ExecuteQuerys() {
+        public void ExecuteQueries() {
             server.Login( _server, _username, _password );
 
-            foreach ( var query in _querys.Values ) {
+            foreach ( var query in _queries.Values ) {
                 RunQuery( query );
             }
 
@@ -288,7 +288,7 @@ namespace RemedyAPI {
         public void ExecuteQuery( string queryTitle ) {
             server.Login( _server, _username, _password );
 
-            RunQuery( _querys[queryTitle] );
+            RunQuery( _queries[queryTitle] );
 
             server.Logout();
         }
