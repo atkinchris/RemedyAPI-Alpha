@@ -28,8 +28,8 @@ namespace RemedyAPI {
         public RemedyQuery( string username, string password ) {
             SetUsername( username );
             SetPassword( password );
-            SetServer( ConfigurationSettings.AppSettings["Default Server"] );
-            SetForm( ConfigurationSettings.AppSettings["Default Form"] );
+            SetServer( ConfigurationManager.AppSettings["Default Server"] );
+            SetForm( ConfigurationManager.AppSettings["Default Form"] );
         }
 
         /// <summary>
