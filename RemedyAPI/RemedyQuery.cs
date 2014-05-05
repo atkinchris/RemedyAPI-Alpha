@@ -25,11 +25,11 @@ namespace RemedyAPI {
         /// </summary>
         /// <param name="username">Username for connection</param>
         /// <param name="password">Password for connection</param>
-        public RemedyQuery( string username, string password ) {
+        public RemedyQuery( string username, string password, string server = "a-rrm-ars-p", string form = "HPD:Help Desk" ) {
             SetUsername( username );
             SetPassword( password );
-            SetServer( ConfigurationManager.AppSettings["Default Server"] );
-            SetForm( ConfigurationManager.AppSettings["Default Form"] );
+            SetServer( server );
+            SetForm( form );
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace RemedyAPI {
             if ( server.IsNullOrBlank() ) {
                 throw new ArgumentException( "Server name must not be blank." );
             }
-            else if ( !Regex.IsMatch( server, @"^[a-zA-Z0-9\-]+$" ) ) {
+            else if ( !Regex.IsMatch( server, @"^[a-zA-Z0-9-]+$" ) ) {
                 throw new ArgumentException( "Server name contains invalid characers." );
             }
             this._server = server.ToLower();
@@ -79,7 +79,7 @@ namespace RemedyAPI {
             if ( form.IsNullOrBlank() ) {
                 throw new ArgumentException( "Form name must not be blank." );
             }
-            else if ( !Regex.IsMatch( form, @"^[a-zA-Z0-9\:\-]+$" ) ) {
+            else if ( !Regex.IsMatch( form, @"^[a-zA-Z0-9: ]+$" ) ) {
                 throw new ArgumentException( "Form name contains invalid characers." );
             }
             this._form = form;
