@@ -150,6 +150,29 @@ namespace RemedyAPI {
         public void ClearGroups() {
             _groups.Clear();
         }
+
+        /// <summary>
+        /// Get the formatted query for group filtering, based on group list. If no groups defined, returns empty.
+        /// </summary>
+        /// <returns>Group filter query in string format.</returns>
+        private string GetGroupQuery() {
+            if ( _groups.Count != 0 ) {
+                var groupQuery = new StringBuilder();
+                groupQuery.Append( "(" );
+                foreach ( var group in _groups ) {
+                    // 1000000217 = Assigned Group FieldID, converted to uint for performance.
+                    groupQuery.AppendFormat( "(\'{0}\' = \"{1}\")", "1000000217", group );
+                    if ( !group.Equals( _groups.Last() ) ) {
+                        groupQuery.Append( " OR " );
+                    }
+                }
+                groupQuery.Append( ")" );
+                return groupQuery.ToString();
+            }
+            else {
+                return string.Empty;
+            }
+        }
         #endregion
 
         #region Field Methods
@@ -215,7 +238,7 @@ namespace RemedyAPI {
         }
 
         /// <summary>
-        /// Delete a single query from the list of available queries.
+        /// Delete a single query (and its results) from the list of available queries.
         /// </summary>
         /// <param name="title">Query title</param>
         public void DeleteQuery( string title ) {
@@ -226,36 +249,12 @@ namespace RemedyAPI {
                 throw new ArgumentException( string.Format( "Query {0} does not exist.", title ) );
             }
         }
-
-        /// <summary>
-        /// Get the formatted query for group filtering, based on group list. If no groups defined, returns empty.
-        /// </summary>
-        /// <returns>Group filter query in string format.</returns>
-        private string GetGroupQuery() {
-            if ( _groups.Count != 0 ) {
-                var groupQuery = new StringBuilder();
-                groupQuery.Append( "(" );
-                foreach ( var group in _groups ) {
-                    // 1000000217 = Assigned Group FieldID, converted to uint for performance.
-                    groupQuery.AppendFormat( "(\'{0}\' = \"{1}\")", "1000000217", group );
-                    if ( !group.Equals( _groups.Last() ) ) {
-                        groupQuery.Append( " OR " );
-                    }
-                }
-                groupQuery.Append( ")" );
-                return groupQuery.ToString();
-            }
-            else {
-                return string.Empty;
-            }
-        }
         #endregion
 
         #region Execution Methods
         /// <summary>
         /// Execute all querys against the Remedy server.
         /// </summary>
-        /// <param name="maxRecords">Maximum number of records to return</param>
         public void ExecuteQuerys() {
             server.Login( _server, _username, _password );
 
@@ -270,7 +269,6 @@ namespace RemedyAPI {
         /// Execute a specific query against the Remedy server.
         /// </summary>
         /// <param name="queryTitle">Query title</param>
-        /// <param name="maxRecords">Maximum number of records to return</param>
         public void ExecuteQuery( string queryTitle ) {
             server.Login( _server, _username, _password );
 
