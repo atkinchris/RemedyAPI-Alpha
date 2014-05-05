@@ -290,9 +290,12 @@ namespace RemedyAPI {
 
             server.Logout();
         }
-        #endregion
 
-        public void RunQuery( Query query ) {
+        /// <summary>
+        /// Execute a query object and update its results.
+        /// </summary>
+        /// <param name="query">Query to be run</param>
+        private void RunQuery( Query query ) {
             string queryString;
             if ( _groups.Count > 0 ) {
                 queryString = string.Format( "{0} AND ({1})", GetGroupQuery(), query.queryString );
@@ -302,5 +305,6 @@ namespace RemedyAPI {
             }
             query.results = server.GetListEntryWithFields( _form, queryString, GetFieldList(), 0, _maxRecords );
         }
+        #endregion
     }
 }
