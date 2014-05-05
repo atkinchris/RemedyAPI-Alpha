@@ -257,6 +257,14 @@ namespace RemedyAPI {
                 throw new ArgumentException( string.Format( "Query {0} does not exist.", title ) );
             }
         }
+
+        /// <summary>
+        /// Gets a list of available query titles.
+        /// </summary>
+        /// <returns>List of query title strings.</returns>
+        public List<string> GetQueries() {
+            return _querys.Keys.ToList();
+        }
         #endregion
 
         #region Execution Methods
