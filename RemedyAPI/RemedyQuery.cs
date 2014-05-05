@@ -15,7 +15,7 @@ namespace RemedyAPI {
         private string _form;
         private string _username;
         private string _password;
-        private const uint maxRecordsDefault = 500;
+        private uint _maxRecords = 500;
 
         // Filters
         private List<string> _groups = new List<string>();
@@ -268,11 +268,11 @@ namespace RemedyAPI {
         /// Execute all querys against the Remedy server.
         /// </summary>
         /// <param name="maxRecords">Maximum number of records to return</param>
-        public void ExecuteQuerys( uint maxRecords = maxRecordsDefault ) {
+        public void ExecuteQuerys( ) {
             server.Login( _server, _username, _password );
 
-            foreach ( var query in _querys ) {
-                query.Value.Execute( server, _form, GetFieldList(), maxRecords, GetGroupQuery() );
+            foreach ( var query in _querys.Values ) {
+                RunQuery(query);
             }
 
             server.Logout();
@@ -283,13 +283,24 @@ namespace RemedyAPI {
         /// </summary>
         /// <param name="queryTitle">Query title</param>
         /// <param name="maxRecords">Maximum number of records to return</param>
-        public void ExecuteQuery( string queryTitle, uint maxRecords = maxRecordsDefault ) {
+        public void ExecuteQuery( string queryTitle ) {
             server.Login( _server, _username, _password );
 
-            _querys[queryTitle].Execute( server, _form, GetFieldList(), maxRecords, GetGroupQuery() );
+            RunQuery(_querys[queryTitle]);
 
             server.Logout();
         }
         #endregion
+
+        public void RunQuery( Query query ) {
+            string queryString;
+            if ( _groups.Count > 0 ) {
+                queryString = string.Format( "{0} AND ({1})", GetGroupQuery(), query.queryString );
+            }
+            else {
+                queryString = query.queryString;
+            }
+            query.results = server.GetListEntryWithFields( _form, queryString, GetFieldList(), 0, _maxRecords );
+        }
     }
 }
