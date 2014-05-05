@@ -16,6 +16,9 @@ namespace RemedyAPI {
         private List<string> _groups = new List<string>();
         private List<uint> _fields = new List<uint>();
 
+        // BMC AR Server Objects
+        BMC.ARSystem.Server ar = new BMC.ARSystem.Server();
+
         /// <summary>
         /// RemedyQuery Constructor - called on creation of a new RemedyQuery object, and sets connection properties.
         /// Server and Form are set from default config, but can be changed with respective set methods.
@@ -182,6 +185,9 @@ namespace RemedyAPI {
         /// </summary>
         public void ClearFields() {
             _fields.Clear();
+        }
+
+        public void ExecuteQuerys() {
         }
     }
 }
