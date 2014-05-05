@@ -7,6 +7,7 @@ using System.Linq;
 namespace RemedyAPI {
     public class RemedyQuery {
 
+        #region Definitions
         // Connection Properties
         private string _server;
         private string _form;
@@ -19,7 +20,9 @@ namespace RemedyAPI {
 
         // BMC AR Server Objects
         BMC.ARSystem.Server ar = new BMC.ARSystem.Server();
+        #endregion
 
+        #region Constructor
         /// <summary>
         /// RemedyQuery Constructor - called on creation of a new RemedyQuery object, and sets connection properties.
         /// Server and Form are set from default config, but can be changed with respective set methods.
@@ -32,7 +35,9 @@ namespace RemedyAPI {
             SetServer( server );
             SetForm( form );
         }
+        #endregion
 
+        #region Set Methods
         /// <summary>
         /// Sets the username for the connection.
         /// </summary>
@@ -85,7 +90,9 @@ namespace RemedyAPI {
             }
             this._form = form;
         }
+        #endregion
 
+        #region Group Methods
         /// <summary>
         /// Add a single group name to the list of groups to filter by.
         /// </summary>
@@ -139,7 +146,9 @@ namespace RemedyAPI {
         public void ClearGroups() {
             _groups.Clear();
         }
+        #endregion
 
+        #region Field Methods
         /// <summary>
         /// Add a single field to be included in the results.
         /// </summary>
@@ -187,7 +196,9 @@ namespace RemedyAPI {
         public void ClearFields() {
             _fields.Clear();
         }
+        #endregion
 
+        #region Execution Methods
         /// <summary>
         /// Execute all querys against the Remedy server.
         /// </summary>
@@ -209,5 +220,6 @@ namespace RemedyAPI {
             // Query execution.
             ar.Logout();
         }
+        #endregion
     }
 }
