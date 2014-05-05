@@ -15,6 +15,7 @@ namespace RemedyAPI {
         private string _form;
         private string _username;
         private string _password;
+        private const uint maxRecordsDefault = 500;
 
         // Filters
         private List<string> _groups = new List<string>();
@@ -262,23 +263,68 @@ namespace RemedyAPI {
         }
         #endregion
 
+        #region Result Methods
+        /// <summary>
+        /// Delete the results for a single query.
+        /// </summary>
+        /// <param name="title">Query title</param>
+        public void DeleteResult( string title ) {
+            if ( _results.ContainsKey( title ) ) {
+                _results.Remove( title );
+            }
+            else {
+                throw new ArgumentException( "Query is not defined." );
+            }
+        }
+
+        /// <summary>
+        /// Clear the list of returned results.
+        /// </summary>
+        public void ClearResults() {
+            _results.Clear();
+        }
+        #endregion
+
         #region Execution Methods
         /// <summary>
         /// Execute all querys against the Remedy server.
         /// </summary>
-        /// <param name="maxRecords">Maximum number of records to be returned</param>
-        public void ExecuteQuerys( uint maxRecords = 500) {
+        /// <param name="maxRecords">Maximum number of records to return</param>
+        public void ExecuteQuerys( uint maxRecords = maxRecordsDefault ) {
             ar.Login( _server, _username, _password );
 
-            var groupQuery = GetGroupQuery();
-
+            ClearResults();
             foreach ( var query in _querys ) {
-                var queryString = string.Format( "{0} AND ({1})", groupQuery, query.Value );
-                var results = ar.GetListEntryWithFields( _form, queryString, GetFieldList(), 0, maxRecords );
-                _results.Add( query.Key, results );
+                Query( query.Key, maxRecords );
             }
 
             ar.Logout();
+        }
+
+        /// <summary>
+        /// Execute a specific query against the Remedy server.
+        /// </summary>
+        /// <param name="queryTitle">Query title</param>
+        /// <param name="maxRecords">Maximum number of records to return</param>
+        public void ExecuteQuery( string queryTitle, uint maxRecords = maxRecordsDefault ) {
+            ar.Login( _server, _username, _password );
+
+            ClearResults();
+            Query( queryTitle, maxRecords );
+
+            ar.Logout();
+        }
+
+        /// <summary>
+        /// Perform a specific query and store results in list.
+        /// </summary>
+        /// <param name="title">Query title</param>
+        /// <param name="maxRecords">Maximum number of records to return</param>
+        private void Query( string title, uint maxRecords ) {
+            var query = _querys[title].ToString();
+            var queryString = string.Format( "{0} AND ({1})", GetGroupQuery(), query );
+            var results = ar.GetListEntryWithFields( _form, queryString, GetFieldList(), 0, maxRecords );
+            _results.Add( title, results );
         }
         #endregion
     }
