@@ -200,18 +200,6 @@ namespace RemedyAPI {
         public void ClearFields() {
             _fields.Clear();
         }
-
-        /// <summary>
-        /// Get an EntryListFieldList object contained all the defined fields.
-        /// </summary>
-        /// <returns>EntryListFieldList of fields</returns>
-        private EntryListFieldList GetFieldList() {
-            var fieldList = new EntryListFieldList();
-            foreach ( var i in _fields ) {
-                fieldList.AddField( i );
-            }
-            return fieldList;
-        }
         #endregion
 
         #region Query Methods
@@ -268,11 +256,11 @@ namespace RemedyAPI {
         /// Execute all querys against the Remedy server.
         /// </summary>
         /// <param name="maxRecords">Maximum number of records to return</param>
-        public void ExecuteQuerys( ) {
+        public void ExecuteQuerys() {
             server.Login( _server, _username, _password );
 
             foreach ( var query in _querys.Values ) {
-                RunQuery(query);
+                RunQuery( query );
             }
 
             server.Logout();
@@ -286,7 +274,7 @@ namespace RemedyAPI {
         public void ExecuteQuery( string queryTitle ) {
             server.Login( _server, _username, _password );
 
-            RunQuery(_querys[queryTitle]);
+            RunQuery( _querys[queryTitle] );
 
             server.Logout();
         }
@@ -303,7 +291,7 @@ namespace RemedyAPI {
             else {
                 queryString = query.queryString;
             }
-            query.results = server.GetListEntryWithFields( _form, queryString, GetFieldList(), 0, _maxRecords );
+            query.results = server.GetListEntryWithFields( _form, queryString, _fields.ToArray(), 0, _maxRecords );
         }
         #endregion
     }
