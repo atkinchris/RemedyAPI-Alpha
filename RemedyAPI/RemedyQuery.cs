@@ -20,11 +20,10 @@ namespace RemedyAPI {
         // Filters
         private List<string> _groups = new List<string>();
         private List<int> _fields = new List<int>();
-        private Dictionary<string, string> _querys = new Dictionary<string, string>();
-        private Dictionary<string, EntryFieldValueList> _results = new Dictionary<string, EntryFieldValueList>();
+        private Dictionary<string, Query> _querys = new Dictionary<string, Query>();
 
         // BMC AR Server Objects
-        BMC.ARSystem.Server ar = new BMC.ARSystem.Server();
+        Server server = new Server();
         #endregion
 
         #region Constructor
@@ -223,7 +222,8 @@ namespace RemedyAPI {
         /// <param name="title">Query title</param>
         /// <param name="query">Query string</param>
         public void AddQuery( string title, string query ) {
-            _querys.Add( title, query );
+            var queryObject = new Query( query );
+            _querys.Add( title, queryObject );
         }
 
         /// <summary>
@@ -231,7 +231,7 @@ namespace RemedyAPI {
         /// </summary>
         /// <param name="title">Query title</param>
         public void DeleteQuery( string title ) {
-            if ( _querys.Keys.Contains( title ) ) {
+            if ( _querys.ContainsKey( title ) ) {
                 _querys.Remove( title );
             }
             else {
@@ -263,42 +263,19 @@ namespace RemedyAPI {
         }
         #endregion
 
-        #region Result Methods
-        /// <summary>
-        /// Delete the results for a single query.
-        /// </summary>
-        /// <param name="title">Query title</param>
-        public void DeleteResult( string title ) {
-            if ( _results.ContainsKey( title ) ) {
-                _results.Remove( title );
-            }
-            else {
-                throw new ArgumentException( "Query is not defined." );
-            }
-        }
-
-        /// <summary>
-        /// Clear the list of returned results.
-        /// </summary>
-        public void ClearResults() {
-            _results.Clear();
-        }
-        #endregion
-
         #region Execution Methods
         /// <summary>
         /// Execute all querys against the Remedy server.
         /// </summary>
         /// <param name="maxRecords">Maximum number of records to return</param>
         public void ExecuteQuerys( uint maxRecords = maxRecordsDefault ) {
-            ar.Login( _server, _username, _password );
+            server.Login( _server, _username, _password );
 
-            ClearResults();
             foreach ( var query in _querys ) {
-                Query( query.Key, maxRecords );
+                query.Value.Execute( server, _form, GetFieldList(), maxRecords, GetGroupQuery() );
             }
 
-            ar.Logout();
+            server.Logout();
         }
 
         /// <summary>
@@ -307,24 +284,11 @@ namespace RemedyAPI {
         /// <param name="queryTitle">Query title</param>
         /// <param name="maxRecords">Maximum number of records to return</param>
         public void ExecuteQuery( string queryTitle, uint maxRecords = maxRecordsDefault ) {
-            ar.Login( _server, _username, _password );
+            server.Login( _server, _username, _password );
 
-            ClearResults();
-            Query( queryTitle, maxRecords );
+            _querys[queryTitle].Execute( server, _form, GetFieldList(), maxRecords, GetGroupQuery() );
 
-            ar.Logout();
-        }
-
-        /// <summary>
-        /// Perform a specific query and store results in list.
-        /// </summary>
-        /// <param name="title">Query title</param>
-        /// <param name="maxRecords">Maximum number of records to return</param>
-        private void Query( string title, uint maxRecords ) {
-            var query = _querys[title].ToString();
-            var queryString = string.Format( "{0} AND ({1})", GetGroupQuery(), query );
-            var results = ar.GetListEntryWithFields( _form, queryString, GetFieldList(), 0, maxRecords );
-            _results.Add( title, results );
+            server.Logout();
         }
         #endregion
     }
