@@ -94,6 +94,14 @@ namespace RemedyAPI {
             }
             this._form = form;
         }
+
+        /// <summary>
+        /// Set the maximum number of records to be returned by queries.
+        /// </summary>
+        /// <param name="records">Number of records</param>
+        public void SetMaxRecords( uint records ) {
+            _maxRecords = records;
+        }
         #endregion
 
         #region Group Methods
