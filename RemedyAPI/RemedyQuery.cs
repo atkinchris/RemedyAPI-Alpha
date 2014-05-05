@@ -187,7 +187,13 @@ namespace RemedyAPI {
             _fields.Clear();
         }
 
+        /// <summary>
+        /// Execute all querys against the Remedy server.
+        /// </summary>
         public void ExecuteQuerys() {
+            ar.Login( _server, _username, _password );
+            // Query execution.
+            ar.Logout();
         }
     }
 }
