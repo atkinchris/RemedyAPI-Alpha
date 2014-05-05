@@ -1,8 +1,10 @@
-﻿using System;
+﻿using BMC.ARSystem;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Linq;
 
 namespace RemedyAPI {
     public class RemedyQuery {
@@ -16,8 +18,9 @@ namespace RemedyAPI {
 
         // Filters
         private List<string> _groups = new List<string>();
-        private List<uint> _fields = new List<uint>();
+        private List<int> _fields = new List<int>();
         private Dictionary<string, string> _querys = new Dictionary<string, string>();
+        private Dictionary<string, EntryFieldValueList> _results = new Dictionary<string, EntryFieldValueList>();
 
         // BMC AR Server Objects
         BMC.ARSystem.Server ar = new BMC.ARSystem.Server();
@@ -154,7 +157,7 @@ namespace RemedyAPI {
         /// Add a single field to be included in the results.
         /// </summary>
         /// <param name="fieldID">Field ID</param>
-        public void AddField( uint fieldID ) {
+        public void AddField( int fieldID ) {
             _fields.Add( fieldID );
         }
 
@@ -162,7 +165,7 @@ namespace RemedyAPI {
         /// Add multiple fields to be included in the results.
         /// </summary>
         /// <param name="fieldIDs">Array of Field IDs</param>
-        public void AddFields( uint[] fieldIDs ) {
+        public void AddFields( int[] fieldIDs ) {
             foreach ( var fieldID in fieldIDs ) {
                 AddField( fieldID );
             }
@@ -172,7 +175,7 @@ namespace RemedyAPI {
         /// Delete a single field from the list to be returned in results.
         /// </summary>
         /// <param name="fieldID">Field ID</param>
-        public void DeleteField( uint fieldID ) {
+        public void DeleteField( int fieldID ) {
             if ( _fields.Contains( fieldID ) ) {
                 _fields.Remove( fieldID );
             }
@@ -185,7 +188,7 @@ namespace RemedyAPI {
         /// Delete multiple fields from the list to be returned in results.
         /// </summary>
         /// <param name="fieldIDs">Array of Field IDs</param>
-        public void DeleteFields( uint[] fieldIDs ) {
+        public void DeleteFields( int[] fieldIDs ) {
             foreach ( var fieldID in fieldIDs ) {
                 DeleteField( fieldID );
             }
@@ -196,6 +199,18 @@ namespace RemedyAPI {
         /// </summary>
         public void ClearFields() {
             _fields.Clear();
+        }
+
+        /// <summary>
+        /// Get an EntryListFieldList object contained all the defined fields.
+        /// </summary>
+        /// <returns>EntryListFieldList of fields</returns>
+        private EntryListFieldList GetFieldList() {
+            var fieldList = new EntryListFieldList();
+            foreach ( var i in _fields ) {
+                fieldList.AddField( i );
+            }
+            return fieldList;
         }
         #endregion
 
@@ -251,11 +266,16 @@ namespace RemedyAPI {
         /// <summary>
         /// Execute all querys against the Remedy server.
         /// </summary>
-        public void ExecuteQuerys() {
+        /// <param name="maxRecords">Maximum number of records to be returned</param>
+        public void ExecuteQuerys( uint maxRecords = 500) {
             ar.Login( _server, _username, _password );
 
-            foreach ( var query in _querys ) {
+            var groupQuery = GetGroupQuery();
 
+            foreach ( var query in _querys ) {
+                var queryString = string.Format( "{0} AND ({1})", groupQuery, query.Value );
+                var results = ar.GetListEntryWithFields( _form, queryString, GetFieldList(), 0, maxRecords );
+                _results.Add( query.Key, results );
             }
 
             ar.Logout();
