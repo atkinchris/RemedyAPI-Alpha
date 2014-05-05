@@ -12,7 +12,7 @@ namespace RemedyAPI {
         private string _password;
 
         private List<string> _groups;
-
+        private List<uint> _fields;
 
         public RemedyQuery( string username, string password ) {
             SetUsername( username );
@@ -91,6 +91,31 @@ namespace RemedyAPI {
 
         public void ClearGroups() {
             _groups.Clear();
+        }
+
+        public void AddField( uint field ) {
+            _fields.Add( field );
+        }
+
+        public void AddFields( uint[] fields ) {
+            foreach ( var field in fields ) {
+                AddField( field );
+            }
+        }
+
+        public void DeleteField( uint field ) {
+            if ( _fields.Contains( field ) ) {
+                _fields.Remove( field );
+            }
+            else {
+                throw new ArgumentException( string.Format( "Field {0} does not exist.", field.ToString() ) );
+            }
+        }
+
+        public void DeleteFields( uint[] fields ) {
+            foreach ( var field in fields ) {
+                DeleteField( field );
+            }
         }
 
     }
