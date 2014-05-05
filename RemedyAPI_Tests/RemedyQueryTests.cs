@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RemedyAPI;
 using System;
 
 namespace RemedyAPI_Tests {
@@ -10,38 +11,43 @@ namespace RemedyAPI_Tests {
         private string invalidUsername = "$$";
 
         [TestMethod]
+        public void Constructor_Default() {
+            var remedy = new RemedyQuery( testUsername, testPassword );
+        }
+
+        [TestMethod]
         [ExpectedException( typeof( ArgumentException ),
             "A username of null was inappropriately allowed." )]
         public void Constructor_NullUsername() {
-            var remedy = new RemedyAPI.RemedyQuery( null, testPassword );
+            var remedy = new RemedyQuery( null, testPassword );
         }
 
         [TestMethod]
         [ExpectedException( typeof( ArgumentException ),
             "An empty username was inappropriately allowed." )]
         public void Constructor_EmptyUsername() {
-            var remedy = new RemedyAPI.RemedyQuery( string.Empty, testPassword );
+            var remedy = new RemedyQuery( string.Empty, testPassword );
         }
 
         [TestMethod]
         [ExpectedException( typeof( ArgumentException ),
             "A password of null was inappropriately allowed." )]
         public void Constructor_NullPassword() {
-            var remedy = new RemedyAPI.RemedyQuery( testUsername, null );
+            var remedy = new RemedyQuery( testUsername, null );
         }
 
         [TestMethod]
         [ExpectedException( typeof( ArgumentException ),
             "An empty password was inappropriately allowed." )]
         public void Constructor_EmptyPassword() {
-            var remedy = new RemedyAPI.RemedyQuery( testUsername, string.Empty );
+            var remedy = new RemedyQuery( testUsername, string.Empty );
         }
 
         [TestMethod]
         [ExpectedException( typeof( ArgumentException ),
             "A username of null was inappropriately allowed." )]
         public void SetUsername_Null() {
-            var remedy = new RemedyAPI.RemedyQuery( testUsername, testPassword );
+            var remedy = new RemedyQuery( testUsername, testPassword );
             remedy.SetUsername( null );
         }
 
@@ -49,7 +55,7 @@ namespace RemedyAPI_Tests {
         [ExpectedException( typeof( ArgumentException ),
             "An empty username was inappropriately allowed." )]
         public void SetUsername_Empty() {
-            var remedy = new RemedyAPI.RemedyQuery( testUsername, testPassword );
+            var remedy = new RemedyQuery( testUsername, testPassword );
             remedy.SetUsername( string.Empty );
         }
 
@@ -57,7 +63,7 @@ namespace RemedyAPI_Tests {
         [ExpectedException( typeof( ArgumentException ),
             "An empty username was inappropriately allowed." )]
         public void SetUsername_Invalid() {
-            var remedy = new RemedyAPI.RemedyQuery( testUsername, testPassword );
+            var remedy = new RemedyQuery( testUsername, testPassword );
             remedy.SetUsername( invalidUsername );
         }
     }
