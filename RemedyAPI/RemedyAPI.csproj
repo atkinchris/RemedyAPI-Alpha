@@ -42,6 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ARConnector_ExecuteMethods.cs" />
+    <Compile Include="ARConnector_GroupMethods.cs" />
+    <Compile Include="ARConnector_QueryMethods.cs" />
+    <Compile Include="ARConnector_ResultMethods.cs" />
     <Compile Include="Fields.cs" />
     <Compile Include="Groups.cs" />
     <Compile Include="Queries.cs" />

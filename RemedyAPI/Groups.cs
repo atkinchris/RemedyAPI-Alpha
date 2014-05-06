@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 namespace RemedyAPI {
-    public class Groups {
+    internal class Groups {
 
         private List<string> _groups = new List<string>();
 
@@ -27,7 +27,7 @@ namespace RemedyAPI {
         /// Add multiple group names to the list of groups to filter by.
         /// </summary>
         /// <param name="groups">Array of group names</param>
-        public void AddGroups( string[] groups ) {
+        public void Add( string[] groups ) {
             foreach ( var group in groups ) {
                 Add( group );
             }

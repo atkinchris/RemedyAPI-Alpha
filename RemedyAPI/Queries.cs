@@ -2,7 +2,7 @@
 using System.Linq;
 
 namespace RemedyAPI {
-    class Queries {
+    internal class Queries {
 
         private Dictionary<string, Query> _queries = new Dictionary<string, Query>();
 

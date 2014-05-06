@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace RemedyAPI {
-    static class TypeExtensions {
+    internal static class TypeExtensions {
         public static bool IsNullOrBlank( this string text ) {
             return text == null || text.Trim().Length == 0;
         }

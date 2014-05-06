@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace RemedyAPI {
-    public class Fields {
+    internal class Fields {
 
         private List<int> _fields = new List<int>();
 

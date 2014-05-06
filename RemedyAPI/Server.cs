@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 
 namespace RemedyAPI {
-    class Server {
+    internal class Server {
 
         private BMC.ARSystem.Server _arserver = new BMC.ARSystem.Server();
 

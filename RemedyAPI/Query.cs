@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace RemedyAPI {
-    class Query {
+    internal class Query {
         private string _queryString;
         private List<Result> _results;
         public List<Result> results{

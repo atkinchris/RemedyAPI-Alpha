@@ -1,10 +1,8 @@
 ﻿
-namespace RemedyAPI {
-    public class ARConnector {
+namespace RemedyAPI {    
+    public partial class ARConnector {
         private Server server;
-        private Groups groups = new Groups();
         private Fields fields = new Fields();
-        private Queries queries = new Queries();
 
         /// <summary>
         /// RemedyQuery Constructor - called on creation of a new RemedyQuery object, and sets connection properties.
@@ -23,22 +21,6 @@ namespace RemedyAPI {
                 formName = form,
                 maxRecords = maxRecords
             };
-        }
-
-        /// <summary>
-        /// Execute all queries against the Remedy server.
-        /// </summary>
-        public void ExecuteQueries() {
-            server.ExecuteQuery( queries, groups, fields );
-        }
-
-        /// <summary>
-        /// Execute a specific query against the Remedy server.
-        /// </summary>
-        /// <param name="title">Query title</param>
-        public void ExecuteQuery( string title ) {
-            var query = queries.GetQuery( title );
-            server.ExecuteQuery( query, groups, fields );
         }
     }
 }
