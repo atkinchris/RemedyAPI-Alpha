@@ -17,7 +17,7 @@ namespace RemedyAPI {
             if ( group.IsNullOrBlank() ) {
                 throw new ArgumentException( "Group name must not be blank." );
             }
-            else if ( !Regex.IsMatch( group, @"^[a-zA-Z0-9\:\-\&]+$" ) ) {
+            else if ( !Regex.IsMatch( group, @"^[a-zA-Z0-9\:\-\&\ ]+$" ) ) {
                 throw new ArgumentException( string.Format( "Group name contains invalid characers.", group ) );
             }
             _groups.Add( group );
