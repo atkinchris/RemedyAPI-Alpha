@@ -17,5 +17,16 @@ namespace RemedyAPI {
             var query = queries.GetQuery( title );
             server.ExecuteQuery( query, groups, fields );
         }
+
+        /// <summary>
+        /// Retrieve the number of incidents for a group's queue that are at a status earlier than resolved.
+        /// </summary>
+        /// <param name="queue">Group name</param>
+        /// <returns>Int count of incidents</returns>
+        public int GetQueueDepth( string queue ) {
+            var query = new Query( string.Format( "(\'{0}\' < \"{1}\")", "Status", "Resolved" ) );
+            server.ExecuteQuery( query, new Groups( queue ), new Fields() );
+            return query.results.Count;
+        }
     }
 }
