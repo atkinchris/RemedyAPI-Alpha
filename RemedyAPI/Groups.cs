@@ -9,6 +9,16 @@ namespace RemedyAPI {
 
         private List<string> _groups = new List<string>();
 
+        public Groups() { }
+        public Groups( string group ) {
+            this.Add( group );
+        }
+        public Groups( string[] groups ) {
+            foreach ( var group in groups ) {
+                this.Add( group );
+            }
+        }
+
         /// <summary>
         /// Add a single group name to the list of groups to filter by.
         /// </summary>
