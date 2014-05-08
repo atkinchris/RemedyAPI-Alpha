@@ -22,5 +22,10 @@ namespace RemedyAPI {
                 maxRecords = maxRecords
             };
         }
+
+        public void SetCredentials( string username, string password ) {
+            this.server.username = username;
+            this.server.password = password;
+        }
     }
 }
