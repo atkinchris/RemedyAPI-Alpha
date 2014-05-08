@@ -20,5 +20,9 @@ namespace RemedyAPI {
         public override string ToString() {
             return _queryString;
         }
+
+        public int ToInt() {
+            return _results.Count;
+        }
     }
 }

@@ -1,5 +1,5 @@
-﻿using BMC.ARSystem;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using BMC.ARSystem;
 
 namespace RemedyAPI {
     internal static class TypeExtensions {
@@ -16,6 +16,7 @@ namespace RemedyAPI {
                 foreach ( var field in result.FieldValues.Keys ) {
                     parsedResult.fields.Add( field.ToString(), result.FieldValues[field] );
                 }
+                parsedResults.Add( parsedResult );
             }
             return parsedResults;
         }

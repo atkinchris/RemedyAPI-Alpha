@@ -1,8 +1,13 @@
-﻿
+﻿using System.Collections.Generic;
+
 namespace RemedyAPI {
     public partial class ARConnector {
-        public string GetResults() {
-            return "Some Results";
+        public Dictionary<string, int> GetResultsCount() {
+            return queries.GetResultsCount();
+        }
+
+        public string GetResultsString() {
+            return queries.GetResultsString();
         }
     }
 }
