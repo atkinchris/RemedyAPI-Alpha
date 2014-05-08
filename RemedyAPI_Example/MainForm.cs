@@ -47,12 +47,6 @@ namespace RemedyQuery {
                 return;
             }
 
-            usernameInput.Enabled = false;
-            passwordInput.Enabled = false;
-            startButton.Text = "Stop";
-            startButton.Click -= new System.EventHandler(this.Start);
-            startButton.Click += new System.EventHandler(this.Stop);
-
             remedy = new ARConnector(username, password);
             var groups = new string[] {
                 "Collaboration Services",
@@ -67,19 +61,30 @@ namespace RemedyQuery {
             remedy.AddQuery("Resolved", string.Format("(\'{0}\' > \"{1}\")", "Last Resolved Date", today));
             remedy.AddQuery("Outstanding", string.Format("(\'{0}\' < \"{1}\")", "Status", "Resolved"));
 
-            timer.Enabled = true;
+            ToggleRefresh( true );
             RefreshData(null, null);
         }
 
         private void Stop(object sender, System.EventArgs e) {
-
-            usernameInput.Enabled = true;
-            passwordInput.Enabled = true;
-            startButton.Text = "Start";
-            startButton.Click -= new System.EventHandler(this.Stop);
-            startButton.Click += new System.EventHandler(this.Start);
+            ToggleRefresh( false );
             remedy = null;
-            timer.Enabled = false;
+        }
+
+        private void ToggleRefresh( bool start ) {
+
+            usernameInput.Enabled = !start;
+            passwordInput.Enabled = !start;
+            browseButton.Enabled = !start;
+            startButton.Text = start ? "Stop" : "Start";
+            if ( start ) {
+                startButton.Click -= new System.EventHandler( this.Start );
+                startButton.Click += new System.EventHandler( this.Stop );
+            }
+            else {
+                startButton.Click -= new System.EventHandler( this.Stop );
+                startButton.Click += new System.EventHandler( this.Start );
+            }
+            timer.Enabled = start;
         }
 
         private void RefreshData(object source, ElapsedEventArgs e) {
