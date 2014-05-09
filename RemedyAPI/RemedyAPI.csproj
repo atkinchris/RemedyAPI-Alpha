@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ARConnector_ExecuteMethods.cs" />
+    <Compile Include="ARConnector_FieldMethods.cs" />
     <Compile Include="ARConnector_GroupMethods.cs" />
     <Compile Include="ARConnector_QueryMethods.cs" />
     <Compile Include="ARConnector_ResultMethods.cs" />

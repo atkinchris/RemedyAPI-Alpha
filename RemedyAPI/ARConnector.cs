@@ -2,7 +2,6 @@
 namespace RemedyAPI {    
     public partial class ARConnector {
         private Server server;
-        private Fields fields = new Fields();
 
         /// <summary>
         /// RemedyQuery Constructor - called on creation of a new RemedyQuery object, and sets connection properties.

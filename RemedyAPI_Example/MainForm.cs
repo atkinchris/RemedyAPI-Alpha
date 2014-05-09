@@ -23,7 +23,7 @@ namespace RemedyQuery {
             bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
 
             startButton.Click += new System.EventHandler(this.Start);
-            timer.Interval = 30 * 1000;
+            timer.Interval = 60 * 1000;
             timer.Elapsed += new ElapsedEventHandler(RefreshData);
 
             var identity = WindowsIdentity.GetCurrent().Name;
@@ -57,10 +57,13 @@ namespace RemedyQuery {
             remedy.AddGroups(groups);
 
             string today = DateTime.Today.ToShortDateString();
-            remedy.AddQuery("Submitted", string.Format("(\'{0}\' > \"{1}\")", "Submit Date", today));
-            remedy.AddQuery("Resolved", string.Format("(\'{0}\' > \"{1}\")", "Last Resolved Date", today));
-            remedy.AddQuery("Outstanding", string.Format("(\'{0}\' < \"{1}\")", "Status", "Resolved"));
-
+            remedy.AddQuery("Submitted", string.Format("(\'{0}\' > \"{1}\") AND (\'{2}\' < \"{3}\")", "Submit Date", today, "Service Type", "Infrastructure Restoration"));
+            remedy.AddQuery("Resolved", string.Format("(\'{0}\' > \"{1}\") AND (\'{2}\' < \"{3}\")", "Last Resolved Date", today, "Service Type", "Infrastructure Restoration"));
+            var queryString = new StringBuilder();
+            queryString.AppendFormat("(\'{0}\' < \"{1}\")", "Status", "Resolved");
+            queryString.AppendFormat(" AND (\'{0}\' < \"{1}\")", "Service Type", "Infrastructure Restoration");
+            queryString.AppendFormat(" AND (\'{0}\' <> \"{1}\")", "Assignee", "Ian Taylor");
+            remedy.AddQuery("Outstanding", queryString.ToString());
             ToggleRefresh( true );
             RefreshData(null, null);
         }

@@ -1,4 +1,5 @@
-﻿
+﻿using System.Collections.Generic;
+
 namespace RemedyAPI {
     public partial class ARConnector {
 
