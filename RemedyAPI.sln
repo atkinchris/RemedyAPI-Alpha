@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemedyAPI_Example", "Remedy
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemedyAPI_Dev", "RemedyAPI_Dev\RemedyAPI_Dev.csproj", "{806BC4EA-56B8-43EE-A2CA-692D0B0ADA10}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemedyAPI_Service", "RemedyAPI_Service\RemedyAPI_Service.csproj", "{EDC91BE2-4887-4860-89ED-720C76386DD7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,16 @@ Global
 		{806BC4EA-56B8-43EE-A2CA-692D0B0ADA10}.Release|Mixed Platforms.Build.0 = Release|x86
 		{806BC4EA-56B8-43EE-A2CA-692D0B0ADA10}.Release|x86.ActiveCfg = Release|x86
 		{806BC4EA-56B8-43EE-A2CA-692D0B0ADA10}.Release|x86.Build.0 = Release|x86
+		{EDC91BE2-4887-4860-89ED-720C76386DD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDC91BE2-4887-4860-89ED-720C76386DD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDC91BE2-4887-4860-89ED-720C76386DD7}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EDC91BE2-4887-4860-89ED-720C76386DD7}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EDC91BE2-4887-4860-89ED-720C76386DD7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EDC91BE2-4887-4860-89ED-720C76386DD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDC91BE2-4887-4860-89ED-720C76386DD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDC91BE2-4887-4860-89ED-720C76386DD7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EDC91BE2-4887-4860-89ED-720C76386DD7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EDC91BE2-4887-4860-89ED-720C76386DD7}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
