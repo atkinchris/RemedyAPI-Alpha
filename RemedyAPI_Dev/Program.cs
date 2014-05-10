@@ -7,7 +7,13 @@ namespace RemedyAPI_Dev {
 
             var server = new Server( "Chris", "Password" );
             server.Login();
-            Console.WriteLine( server.cacheTime );
+
+            var query = new Query();
+            server.ExecuteQuery( query );
+
+            foreach ( var result in query.results ) {
+                Console.WriteLine( result.Key + ": " + result.Value["INCID"].ToString() );
+            }
             Console.ReadLine();
         }
     }

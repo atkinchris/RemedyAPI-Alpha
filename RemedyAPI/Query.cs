@@ -6,10 +6,26 @@ namespace RemedyAPI {
     public class Query {
         public Groups groups = new Groups();
         public Users users = new Users();
-        public IncidentTypes types;
+        public Fields fields = new Fields() {
+            1,
+            2
+        };
+        public IncidentTypes types = IncidentTypes.Incidents;
         public string qualification;
         public Results results;
-        public Fields fields;
+
+        public Query() { }
+        public Query( string qualification ) {
+            this.qualification = qualification;
+        }
+        public Query( string qualification, string group ) {
+            this.qualification = qualification;
+            this.groups.Add( group );
+        }
+        public Query( string qualification, string[] groups ) {
+            this.qualification = qualification;
+            this.groups.Add( groups );
+        }
 
         public override string ToString() {
             var parts = new List<string>() {

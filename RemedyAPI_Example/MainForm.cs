@@ -11,7 +11,8 @@ using System.Linq;
 namespace RemedyQuery {
     public partial class MainForm : Form {
 
-        private ARConnector remedy;
+        private Queries queries;
+        private Server remedy;
         private BackgroundWorker bw = new BackgroundWorker();
         private System.Timers.Timer timer = new System.Timers.Timer();
         private string resultsPath;
@@ -47,23 +48,23 @@ namespace RemedyQuery {
                 return;
             }
 
-            remedy = new ARConnector(username, password);
+            remedy = new Server(username, password);
+            queries = new Queries();
+
             var groups = new string[] {
                 "Collaboration Services",
                 "CS Deploy & Operate",
                 "CS Deploy and Operate",
                 "End User Devices"
             };
-            remedy.AddGroups(groups);
-
+            
             string today = DateTime.Today.ToShortDateString();
-            remedy.AddQuery("Submitted", string.Format("(\'{0}\' > \"{1}\") AND (\'{2}\' < \"{3}\")", "Submit Date", today, "Service Type", "Infrastructure Restoration"));
-            remedy.AddQuery("Resolved", string.Format("(\'{0}\' > \"{1}\") AND (\'{2}\' < \"{3}\")", "Last Resolved Date", today, "Service Type", "Infrastructure Restoration"));
-            var queryString = new StringBuilder();
-            queryString.AppendFormat("(\'{0}\' < \"{1}\")", "Status", "Resolved");
-            queryString.AppendFormat(" AND (\'{0}\' < \"{1}\")", "Service Type", "Infrastructure Restoration");
-            queryString.AppendFormat(" AND (\'{0}\' <> \"{1}\")", "Assignee", "Ian Taylor");
-            remedy.AddQuery("Outstanding", queryString.ToString());
+            queries.Add("Submitted", new Query(string.Format("(\'{0}\' > \"{1}\") AND (\'{2}\' < \"{3}\")", "Submit Date", today), groups));
+            queries.Add("Resolved", new Query(string.Format("(\'{0}\' > \"{1}\") AND (\'{2}\' < \"{3}\")", "Last Resolved Date", today), groups));
+
+            var outstandingQuery = new Query(string.Format("(\'{0}\' < \"{1}\")", "Status", "Resolved"), groups);
+            outstandingQuery.users.Add( "Ian Taylor", true );
+            queries.Add( "Outstanding", outstandingQuery );
             ToggleRefresh( true );
             RefreshData(null, null);
         }
@@ -98,7 +99,7 @@ namespace RemedyQuery {
         }
 
         private void bw_DoWork(object sender, DoWorkEventArgs e) {
-            remedy.ExecuteQueries();
+            remedy.ExecuteQuery( queries );
         }
 
         private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
@@ -111,7 +112,7 @@ namespace RemedyQuery {
 
         private void UpdateResults() {
             statusLabel.Text = "Ready.";
-            var results = remedy.GetResultsCount();
+            var results = queries.GetResultsCount();
 
             if (!File.Exists(resultsPath)) {
                 var titles = new StringBuilder();
