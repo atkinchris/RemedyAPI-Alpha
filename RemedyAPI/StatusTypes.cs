@@ -14,9 +14,9 @@ namespace RemedyAPI {
         internal static string ToQuery( this StatusTypes status ) {
             switch ( status ) {
                 case StatusTypes.Open:
-                    return String.Format( "(\'{0}\' >= \"{1}\")", "Service Type", "Infrastructure Restoration" );
+                    return String.Format( "(\'{0}\' < \"{1}\")", "Status", "Resolved" );
                 case StatusTypes.Closed:
-                    return String.Format( "(\'{0}\' < \"{1}\")", "Service Type", "Infrastructure Restoration" ); ;
+                    return String.Format( "(\'{0}\' >= \"{1}\")", "Status", "Resolved" ); ;
                 case StatusTypes.All:
                     return String.Empty;
                 default:
