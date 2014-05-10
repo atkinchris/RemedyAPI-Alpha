@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Runtime.Caching;
 using System.Text.RegularExpressions;
 
 namespace RemedyAPI {
     internal class Server {
 
         private BMC.ARSystem.Server _arserver = new BMC.ARSystem.Server();
-
+        private ObjectCache cache = MemoryCache.Default;
         private string _serverName;
         public string serverName {
             set {

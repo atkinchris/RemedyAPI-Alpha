@@ -4,11 +4,11 @@ namespace RemedyAPI {
     internal class Query {
         private string _queryString;
         private List<Result> _results;
-        public List<Result> results{
-            get{
+        public List<Result> results {
+            get {
                 return this._results;
             }
-            set{
+            set {
                 this._results = value;
             }
         }

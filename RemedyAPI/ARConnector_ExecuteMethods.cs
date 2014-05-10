@@ -28,6 +28,11 @@ namespace RemedyAPI {
             var query = new Query( string.Format( "(\'{0}\' < \"{1}\")", "Status", "Resolved" ) );
             server.ExecuteQuery( query, new Groups( queue ), new Fields() );
             return query.results.Count;
+        }        
+
+        public List<Result> GetIncidents( string group ) {
+            var groups = new Groups( group );
+            var queryString = string.Format( "{0} AND ({1})", groups.ToString(), query.ToString() );
         }
     }
 }
