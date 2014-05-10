@@ -9,6 +9,14 @@ namespace RemedyAPI {
         protected abstract string scope { get; }
         protected abstract string validation { get; }
 
+        public DictionaryFilter() { }
+        public DictionaryFilter( string filter ) {
+            this.Add( filter );
+        }
+        public DictionaryFilter( string[] filters ) {
+            this.Add( filters );
+        }
+
         public new void Add( string filter, bool exclude = false ) {
             if ( filter.IsNullOrBlank() ) {
                 throw new ArgumentException( "Filter must not be blank." );

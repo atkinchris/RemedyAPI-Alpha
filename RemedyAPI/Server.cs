@@ -1,15 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.Caching;
 using System.Text.RegularExpressions;
 
 namespace RemedyAPI {
-    internal class Server {
+    public class Server {
 
         private BMC.ARSystem.Server _arserver = new BMC.ARSystem.Server();
         private ObjectCache cache = MemoryCache.Default;
+
         private string _serverName;
         public string serverName {
+            get {
+                return _serverName;
+            }
             set {
                 if ( value.IsNullOrBlank() ) {
                     throw new ArgumentException( "Server name must not be blank." );
@@ -22,6 +25,9 @@ namespace RemedyAPI {
         }
         private string _formName;
         public string formName {
+            get {
+                return _formName;
+            }
             set {
                 if ( value.IsNullOrBlank() ) {
                     throw new ArgumentException( "Form name must not be blank." );
@@ -34,6 +40,9 @@ namespace RemedyAPI {
         }
         private string _username;
         public string username {
+            get {
+                return _username;
+            }
             set {
                 if ( value.IsNullOrBlank() ) {
                     throw new ArgumentException( "Username must not be blank." );
@@ -55,29 +64,63 @@ namespace RemedyAPI {
         }
         private uint _maxRecords;
         public int maxRecords {
+            get {
+                return Convert.ToInt32( _maxRecords );
+            }
             set {
+                if ( value > 500 ) value = 500;
                 _maxRecords = Convert.ToUInt32( value );
             }
         }
+        private double _cacheTime;
+        public int cacheTime {
+            get {
+                return Convert.ToInt32( _cacheTime );
+            }
+            set {
+                if ( value < 15 ) value = 15;
+                _cacheTime = Convert.ToDouble( value );
+            }
+        }
 
-        //public void ExecuteQuery( Query query, Groups groups, Fields fields ) {
-        //    _arserver.Login( _serverName, _username, _password );
-        //    RunQuery( query, groups, fields );
-        //    _arserver.Logout();
-        //}
+        public Server( string username, string password, string server = "a-rrm-ars-p", string form = "HPD:Help Desk", int maxRecords = 500, int cacheTime = 60 ) {
+            this.username = username;
+            this.password = password;
+            this.serverName = server;
+            this.formName = form;
+            this.maxRecords = maxRecords;
+            this.cacheTime = cacheTime;
+        }
 
-        //public void ExecuteQuery( Queries queries, Groups groups, Fields fields ) {
-        //    _arserver.Login( _serverName, _username, _password );
-        //    foreach ( var query in queries.GetQueries() ) {
-        //        RunQuery( query, groups, fields );
-        //    }
-        //    _arserver.Logout();
-        //}
+        public void Login() {
+            _arserver.Login( _serverName, _username, _password );
+        }
 
-        //private void RunQuery( Query query, Groups groups, Fields fields ) {
-        //    var queryString = string.Format( "{0} AND ({1})", groups.ToString(), query.ToString() );
-        //    var results = _arserver.GetListEntryWithFields( _formName, queryString, fields.ToArray(), 0, _maxRecords );
-        //    query.results = results.ToResultsList();
-        //}
+        public void Logout() {
+            _arserver.Logout();
+        }
+
+        public void ExecuteQuery( Query query ) {
+            RunQuery( query );
+        }
+
+        public void ExecuteQuery( Queries queries ) {
+            foreach ( var query in queries.Values ) {
+                RunQuery( query );
+            }
+        }
+
+        private void RunQuery( Query query ) {
+            string queryString = query.ToString();
+            var results = cache[queryString] as Results;
+
+            if ( results == null ) {
+                var efvl = _arserver.GetListEntryWithFields( _formName, query.ToString(), query.fields.ToArray(), 0, _maxRecords );
+                results = new Results( efvl );
+                cache.Set( queryString, results, DateTime.Now.AddSeconds( 60 ) );
+            }
+
+            query.results = results;
+        }
     }
 }

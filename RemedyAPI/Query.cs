@@ -1,27 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-using System.ComponentModel;
 
 namespace RemedyAPI {
     public class Query {
         public Groups groups = new Groups();
         public Users users = new Users();
         public IncidentTypes types;
+        public string qualification;
         public Results results;
+        public Fields fields;
 
         public override string ToString() {
             var parts = new List<string>() {
                 groups.ToString(),
                 users.ToString(),
-                types.ToQuery()
+                types.ToQuery(),
+                qualification
             };            
-            return String.Join( " AND ", parts.Where( p => p.IsNullOrBlank() == false ).Select( p => String.Format( "{0}", p ) ) );
-        }
-
-        public int ToInt() {
-            return results.Count;
+            return String.Join( " AND ", parts.Where( p => p.IsNullOrBlank() == false ).Select( p => String.Format( "({0})", p ) ) );
         }
     }
 }

@@ -59,16 +59,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ARConnector_ExecuteMethods.cs" />
-    <Compile Include="ARConnector_FieldMethods.cs" />
-    <Compile Include="ARConnector_GroupMethods.cs" />
-    <Compile Include="ARConnector_QueryMethods.cs" />
-    <Compile Include="ARConnector_ResultMethods.cs" />
     <Compile Include="Fields.cs" />
     <Compile Include="DictionaryFilter.cs" />
+    <Compile Include="IncidentTypes.cs" />
     <Compile Include="Queries.cs" />
     <Compile Include="Query.cs" />
-    <Compile Include="ARConnector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Results.cs" />
     <Compile Include="Server.cs" />
