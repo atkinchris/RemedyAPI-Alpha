@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.ComponentModel;
 
 namespace RemedyAPI {
     public class Query {
@@ -10,16 +11,11 @@ namespace RemedyAPI {
         public IncidentTypes types;
         public Results results;
 
-        public enum IncidentTypes {
-            All,
-            Incidents,
-            Alerts
-        }
-
         public override string ToString() {
             var parts = new List<string>() {
                 groups.ToString(),
-                users.ToString()
+                users.ToString(),
+                types.ToQuery()
             };            
             return String.Join( " AND ", parts.Where( p => p.IsNullOrBlank() == false ).Select( p => String.Format( "{0}", p ) ) );
         }
