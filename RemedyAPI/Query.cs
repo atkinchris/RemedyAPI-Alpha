@@ -1,28 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Linq;
 
 namespace RemedyAPI {
-    internal class Query {
-        private string _queryString;
-        private List<Result> _results;
-        public List<Result> results {
-            get {
-                return this._results;
-            }
-            set {
-                this._results = value;
-            }
-        }
+    public class Query {
+        public Groups groups = new Groups();
+        public Users users = new Users();
+        public IncidentTypes types;
+        public Results results;
 
-        public Query( string query ) {
-            this._queryString = query;
+        public enum IncidentTypes {
+            All,
+            Incidents,
+            Alerts
         }
 
         public override string ToString() {
-            return _queryString;
+            var parts = new List<string>() {
+                groups.ToString(),
+                users.ToString()
+            };            
+            return String.Join( " AND ", parts.Where( p => p.IsNullOrBlank() == false ).Select( p => String.Format( "{0}", p ) ) );
         }
 
         public int ToInt() {
-            return _results.Count;
+            return results.Count;
         }
     }
 }

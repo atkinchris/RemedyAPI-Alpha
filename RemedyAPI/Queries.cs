@@ -8,9 +8,9 @@ namespace RemedyAPI {
 
         private Dictionary<string, Query> _queries = new Dictionary<string, Query>();
 
-        public void Add( string title, string query ) {
-            _queries.Add( title, new Query( query ) );
-        }
+        //public void Add( string title, string query ) {
+        //    _queries.Add( title, new Query( query ) );
+        //}
 
         public void Remove( string title ) {
             _queries.Remove( title );

@@ -60,24 +60,24 @@ namespace RemedyAPI {
             }
         }
 
-        public void ExecuteQuery( Query query, Groups groups, Fields fields ) {
-            _arserver.Login( _serverName, _username, _password );
-            RunQuery( query, groups, fields );
-            _arserver.Logout();
-        }
+        //public void ExecuteQuery( Query query, Groups groups, Fields fields ) {
+        //    _arserver.Login( _serverName, _username, _password );
+        //    RunQuery( query, groups, fields );
+        //    _arserver.Logout();
+        //}
 
-        public void ExecuteQuery( Queries queries, Groups groups, Fields fields ) {
-            _arserver.Login( _serverName, _username, _password );
-            foreach ( var query in queries.GetQueries() ) {
-                RunQuery( query, groups, fields );
-            }
-            _arserver.Logout();
-        }
+        //public void ExecuteQuery( Queries queries, Groups groups, Fields fields ) {
+        //    _arserver.Login( _serverName, _username, _password );
+        //    foreach ( var query in queries.GetQueries() ) {
+        //        RunQuery( query, groups, fields );
+        //    }
+        //    _arserver.Logout();
+        //}
 
-        private void RunQuery( Query query, Groups groups, Fields fields ) {
-            var queryString = string.Format( "{0} AND ({1})", groups.ToString(), query.ToString() );
-            var results = _arserver.GetListEntryWithFields( _formName, queryString, fields.ToArray(), 0, _maxRecords );
-            query.results = results.ToResultsList();
-        }
+        //private void RunQuery( Query query, Groups groups, Fields fields ) {
+        //    var queryString = string.Format( "{0} AND ({1})", groups.ToString(), query.ToString() );
+        //    var results = _arserver.GetListEntryWithFields( _formName, queryString, fields.ToArray(), 0, _maxRecords );
+        //    query.results = results.ToResultsList();
+        //}
     }
 }
