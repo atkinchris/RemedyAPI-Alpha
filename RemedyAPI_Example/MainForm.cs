@@ -149,20 +149,20 @@ namespace RemedyAPI_Example {
 
         private void notifyIcon1_DoubleClick( object Sender, EventArgs e ) {
             // Show the form when the user double clicks on the notify icon.
-            this.Show();
+            Show();
 
             // Set the WindowState to normal if the form is minimized.
-            if ( this.WindowState == FormWindowState.Minimized ) {
-                this.WindowState = FormWindowState.Normal;
+            if ( WindowState == FormWindowState.Minimized ) {
+                WindowState = FormWindowState.Normal;
             }
 
             // Activate the form.
-            this.Activate();
+            Activate();
         }
 
         protected override void OnResize( EventArgs e ) {
-            if ( this.WindowState == FormWindowState.Minimized )
-                this.Hide();
+            if ( WindowState == FormWindowState.Minimized )
+                Hide();
             base.OnResize( e );
         }
     }
