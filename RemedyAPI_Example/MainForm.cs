@@ -8,7 +8,7 @@ using System.Timers;
 using System.Windows.Forms;
 using Timer = System.Timers.Timer;
 
-namespace RemedyQuery {
+namespace RemedyAPI_Example {
     public partial class MainForm : Form {
 
         private Queries queries;
@@ -20,6 +20,8 @@ namespace RemedyQuery {
         public MainForm() {
             InitializeComponent();
 
+            notifyIcon1.Icon = IconGenerator.GetIcon( @"R!" );
+
             bw.DoWork += bw_DoWork;
             bw.RunWorkerCompleted += bw_RunWorkerCompleted;
 
@@ -28,31 +30,30 @@ namespace RemedyQuery {
             timer.Elapsed += RefreshData;
 
             var windowsIdentity = WindowsIdentity.GetCurrent();
-            if (windowsIdentity != null)
-            {
+            if ( windowsIdentity != null ) {
                 var identity = windowsIdentity.Name;
-                usernameInput.Text = identity.Substring(identity.IndexOf(@"\", StringComparison.Ordinal) + 1);
+                usernameInput.Text = identity.Substring( identity.IndexOf( @"\", StringComparison.Ordinal ) + 1 );
             }
             outputPathText.Text = @"results.csv";
         }
 
-        private void Start(object sender, EventArgs e) {
+        private void Start( object sender, EventArgs e ) {
 
             var username = usernameInput.Text;
             var password = passwordInput.Text;
             resultsPath = outputPathText.Text;
 
-            if (string.IsNullOrEmpty(username)) {
-                MessageBox.Show("Invalid username", "Oops", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if ( string.IsNullOrEmpty( username ) ) {
+                MessageBox.Show( "Invalid username", "Oops", MessageBoxButtons.OK, MessageBoxIcon.Error );
                 return;
             }
 
-            if (string.IsNullOrEmpty(password)) {
-                MessageBox.Show("Invalid password", "Oops", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if ( string.IsNullOrEmpty( password ) ) {
+                MessageBox.Show( "Invalid password", "Oops", MessageBoxButtons.OK, MessageBoxIcon.Error );
                 return;
             }
 
-            remedy = new Server(username, password);
+            remedy = new Server( username, password );
             queries = new Queries();
 
             var groups = new[] {
@@ -61,19 +62,19 @@ namespace RemedyQuery {
                 "CS Deploy and Operate",
                 "End User Devices"
             };
-            
-            string today = DateTime.Today.ToShortDateString();
-            queries.Add("Submitted", new Query(string.Format("(\'{0}\' > \"{1}\")", "Submit Date", today), groups));
-            queries.Add("Resolved", new Query(string.Format("(\'{0}\' > \"{1}\")", "Last Resolved Date", today), groups));
 
-            var outstandingQuery = new Query(string.Format("(\'{0}\' < \"{1}\")", "Status", "Resolved"), groups);
+            string today = DateTime.Today.ToShortDateString();
+            queries.Add( "Submitted", new Query( string.Format( "(\'{0}\' > \"{1}\")", "Submit Date", today ), groups ) );
+            queries.Add( "Resolved", new Query( string.Format( "(\'{0}\' > \"{1}\")", "Last Resolved Date", today ), groups ) );
+
+            var outstandingQuery = new Query( string.Format( "(\'{0}\' < \"{1}\")", "Status", "Resolved" ), groups );
             outstandingQuery.users.Add( "Ian Taylor", true );
             queries.Add( "Outstanding", outstandingQuery );
             ToggleRefresh( true );
-            RefreshData(null, null);
+            RefreshData( null, null );
         }
 
-        private void Stop(object sender, EventArgs e) {
+        private void Stop( object sender, EventArgs e ) {
             ToggleRefresh( false );
             remedy = null;
         }
@@ -95,21 +96,22 @@ namespace RemedyQuery {
             timer.Enabled = start;
         }
 
-        private void RefreshData(object source, ElapsedEventArgs e) {
+        private void RefreshData( object source, ElapsedEventArgs e ) {
             statusLabel.Text = "Refreshing data...";
-            if (bw.IsBusy != true) {
+            if ( bw.IsBusy != true ) {
                 bw.RunWorkerAsync();
             }
         }
 
-        private void bw_DoWork(object sender, DoWorkEventArgs e) {
+        private void bw_DoWork( object sender, DoWorkEventArgs e ) {
             remedy.ExecuteQuery( queries );
         }
 
-        private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
-            if (e.Error == null) {
+        private void bw_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {
+            if ( e.Error == null ) {
                 UpdateResults();
-            } else {
+            }
+            else {
                 statusLabel.Text = "Error: " + e.Error.Message;
             }
         }
@@ -118,31 +120,50 @@ namespace RemedyQuery {
             statusLabel.Text = "Ready.";
             var results = queries.GetResultsCount();
 
-            if (!File.Exists(resultsPath)) {
+            if ( !File.Exists( resultsPath ) ) {
                 var titles = new StringBuilder();
-                titles.AppendFormat("{0}", "Timecode");
-                foreach (var title in results.Keys) {
-                    titles.AppendFormat(",{0}", title);
+                titles.AppendFormat( "{0}", "Timecode" );
+                foreach ( var title in results.Keys ) {
+                    titles.AppendFormat( ",{0}", title );
                 }
                 titles.AppendLine();
-                File.WriteAllText(resultsPath, titles.ToString());
+                File.WriteAllText( resultsPath, titles.ToString() );
             }
 
             var output = new StringBuilder();
-            output.Append(DateTime.Now);
-            foreach (var result in results.Values) {
-                output.AppendFormat(",{0}", result);
+            output.Append( DateTime.Now );
+            foreach ( var result in results.Values ) {
+                output.AppendFormat( ",{0}", result );
             }
-            using (StreamWriter sw = File.AppendText(resultsPath)) {
-                sw.WriteLine(output.ToString());
+            using ( StreamWriter sw = File.AppendText( resultsPath ) ) {
+                sw.WriteLine( output.ToString() );
             }
         }
 
-        private void browseButton_Click(object sender, EventArgs e) {
-            var dialog = new SaveFileDialog {FileName = "results.csv"};
-            if (dialog.ShowDialog(this) == DialogResult.OK) {
+        private void browseButton_Click( object sender, EventArgs e ) {
+            var dialog = new SaveFileDialog { FileName = "results.csv" };
+            if ( dialog.ShowDialog( this ) == DialogResult.OK ) {
                 outputPathText.Text = dialog.InitialDirectory + dialog.FileName;
             }
+        }
+
+        private void notifyIcon1_DoubleClick( object Sender, EventArgs e ) {
+            // Show the form when the user double clicks on the notify icon.
+            this.Show();
+
+            // Set the WindowState to normal if the form is minimized.
+            if ( this.WindowState == FormWindowState.Minimized ) {
+                this.WindowState = FormWindowState.Normal;
+            }
+
+            // Activate the form.
+            this.Activate();
+        }
+
+        protected override void OnResize( EventArgs e ) {
+            if ( this.WindowState == FormWindowState.Minimized )
+                this.Hide();
+            base.OnResize( e );
         }
     }
 }

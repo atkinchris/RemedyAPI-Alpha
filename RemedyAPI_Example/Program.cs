@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace RemedyQuery {
+namespace RemedyAPI_Example {
     class Program {
         static void Main() {
             Application.EnableVisualStyles();

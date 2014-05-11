@@ -1,4 +1,4 @@
-﻿namespace RemedyQuery {
+﻿namespace RemedyAPI_Example {
     partial class MainForm {
         /// <summary>
         /// Required designer variable.
@@ -23,6 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            this.components = new System.ComponentModel.Container();
             this.usernameInput = new System.Windows.Forms.TextBox();
             this.passwordInput = new System.Windows.Forms.TextBox();
             this.usernameLabel = new System.Windows.Forms.Label();
@@ -33,6 +34,7 @@
             this.outputPathText = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.browseButton = new System.Windows.Forms.Button();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -121,6 +123,12 @@
             this.browseButton.UseVisualStyleBackColor = true;
             this.browseButton.Click += new System.EventHandler(this.browseButton_Click);
             // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.Text = "notifyIcon1";
+            this.notifyIcon1.Visible = true;
+            this.notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
+            // 
             // MainForm
             // 
             this.AcceptButton = this.startButton;
@@ -157,5 +165,6 @@
         private System.Windows.Forms.TextBox outputPathText;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button browseButton;
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
     }
 }

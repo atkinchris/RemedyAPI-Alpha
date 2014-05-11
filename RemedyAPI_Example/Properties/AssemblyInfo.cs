@@ -4,8 +4,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle( "RemedyQuery" )]
-[assembly: AssemblyDescription( "Example query application to test Remedy API." )]
+[assembly: AssemblyTitle( "Remedy Stats Extract" )]
+[assembly: AssemblyDescription( "Application to extract basic information using Remedy API." )]
 [assembly: AssemblyConfiguration( "" )]
 [assembly: AssemblyCompany( "" )]
 [assembly: AssemblyProduct( "" )]
