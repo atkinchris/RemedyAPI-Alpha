@@ -101,13 +101,17 @@ namespace RemedyAPI {
         }
 
         public void ExecuteQuery( Query query ) {
+            Login();
             RunQuery( query );
+            Logout();
         }
 
         public void ExecuteQuery( Queries queries ) {
+            Login();
             foreach ( var query in queries.Values ) {
                 RunQuery( query );
             }
+            Logout();
         }
 
         private void RunQuery( Query query ) {
