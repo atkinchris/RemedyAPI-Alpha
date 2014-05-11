@@ -7,7 +7,7 @@ namespace RemedyAPI {
 
         public Results( EntryFieldValueList efvl ) {
             foreach ( var result in efvl ) {
-                this.Add( result.EntryId, new Result( result.FieldValues ) );
+                Add( result.EntryId, new Result( result.FieldValues ) );
             }
         }
     }
@@ -25,15 +25,15 @@ namespace RemedyAPI {
         public DateTime Resolved;
 
         public Result( FieldValueList fieldValues ) {
-            this.Id = fieldValues["Id"] as string;
-            this.AssignedGroup = fieldValues["Assigned Group"] as string;
-            this.Assignee = fieldValues["Assignee"] as string;
-            this.Summary = fieldValues["Summary"] as string;
-            this.Type = fieldValues["Service Type"] as string;
-            this.Status = fieldValues["Status"] as string;
-            this.Created = Convert.ToDateTime( fieldValues["Created"] );
-            this.Assigned = Convert.ToDateTime( fieldValues["Assigned"] );
-            this.Resolved = Convert.ToDateTime( fieldValues["Resolved"] );
+            Id = fieldValues["Id"] as string;
+            AssignedGroup = fieldValues["Assigned Group"] as string;
+            Assignee = fieldValues["Assignee"] as string;
+            Summary = fieldValues["Summary"] as string;
+            Type = fieldValues["Service Type"] as string;
+            Status = fieldValues["Status"] as string;
+            Created = Convert.ToDateTime( fieldValues["Created"] );
+            Assigned = Convert.ToDateTime( fieldValues["Assigned"] );
+            Resolved = Convert.ToDateTime( fieldValues["Resolved"] );
         }
     }
 }

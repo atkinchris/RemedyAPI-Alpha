@@ -14,7 +14,7 @@ namespace RemedyAPI {
                 case IncidentTypes.Alerts:
                     return String.Format( "(\'{0}\' >= \"{1}\")", "Service Type", "Infrastructure Restoration" );
                 case IncidentTypes.Incidents:
-                    return String.Format( "(\'{0}\' < \"{1}\")", "Service Type", "Infrastructure Restoration" );;
+                    return String.Format( "(\'{0}\' < \"{1}\")", "Service Type", "Infrastructure Restoration" );
                 case IncidentTypes.All:
                     return String.Empty;
                 default:

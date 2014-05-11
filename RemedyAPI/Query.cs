@@ -18,7 +18,7 @@ namespace RemedyAPI {
         }
         public Query( string qualification, string group ) {
             this.qualification = qualification;
-            this.groups.Add( group );
+            groups.Add( group );
         }
         public Query( string qualification, string[] groups ) {
             this.qualification = qualification;
@@ -26,7 +26,8 @@ namespace RemedyAPI {
         }
 
         public override string ToString() {
-            var parts = new List<string>() {
+            var parts = new List<string>
+            {
                 groups.ToString(),
                 users.ToString(),
                 types.ToQuery(),
@@ -72,15 +73,13 @@ namespace RemedyAPI {
         }
         static public Results GetResolvedTodayStack( Server server, string group ) {
             var qualification = string.Format( "(\'{0}\' > \"{1}\")", "Last Resolved Date", DateTime.Today.ToShortDateString() );
-            var query = new Query(qualification, group);
-            query.status = StatusTypes.Closed;
+            var query = new Query(qualification, group) {status = StatusTypes.Closed};
             server.ExecuteQuery( query );
             return query.results;
         }
         static public Results GetResolvedTodayStack( Server server, string[] groups ) {
             var qualification = string.Format( "(\'{0}\' > \"{1}\")", "Last Resolved Date", DateTime.Today.ToShortDateString() );
-            var query = new Query( qualification, groups );
-            query.status = StatusTypes.Closed;
+            var query = new Query( qualification, groups ) {status = StatusTypes.Closed};
             server.ExecuteQuery( query );
             return query.results;
         }
@@ -92,15 +91,13 @@ namespace RemedyAPI {
         }
         static public Results GetSubmittedTodayStack( Server server, string group ) {
             var qualification = string.Format( "(\'{0}\' > \"{1}\")", "Submit Date", DateTime.Today.ToShortDateString() );
-            var query = new Query( qualification, group );
-            query.status = StatusTypes.All;
+            var query = new Query( qualification, group ) {status = StatusTypes.All};
             server.ExecuteQuery( query );
             return query.results;
         }
         static public Results GetSubmittedTodayStack( Server server, string[] groups ) {
             var qualification = string.Format( "(\'{0}\' > \"{1}\")", "Submit Date", DateTime.Today.ToShortDateString() );
-            var query = new Query( qualification, groups );
-            query.status = StatusTypes.All;
+            var query = new Query( qualification, groups ) {status = StatusTypes.All};
             server.ExecuteQuery( query );
             return query.results;
         }

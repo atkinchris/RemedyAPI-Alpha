@@ -9,20 +9,20 @@ namespace RemedyAPI {
         protected abstract string scope { get; }
         protected abstract string validation { get; }
 
-        public DictionaryFilter() { }
-        public DictionaryFilter( string filter ) {
-            this.Add( filter );
+        protected DictionaryFilter() { }
+        protected DictionaryFilter( string filter ) {
+            Add( filter );
         }
-        public DictionaryFilter( string[] filters ) {
-            this.Add( filters );
+        protected DictionaryFilter( string[] filters ) {
+            Add( filters );
         }
 
         public new void Add( string filter, bool exclude = false ) {
             if ( filter.IsNullOrBlank() ) {
                 throw new ArgumentException( "Filter must not be blank." );
             }
-            else if ( !Regex.IsMatch( filter, validation ) ) {
-                throw new ArgumentException( string.Format( "Group name contains invalid characers.", filter ) );
+            if ( !Regex.IsMatch( filter, validation ) ) {
+                throw new ArgumentException( string.Format( "{0} contains invalid characers.", filter ) );
             }
             base.Add( filter, exclude );
         }
@@ -32,9 +32,9 @@ namespace RemedyAPI {
             }
         }
         public override string ToString() {
-            var parts = new string[] { 
+            var parts = new[] { 
                 String.Join( " OR ", this.Where( f => f.Value == false ).Select( f => String.Format( "\'{0}\' = \"{1}\"", scope, f.Key ) ) ),
-                String.Join( " AND ", this.Where( f => f.Value == true ).Select( f => String.Format( "\'{0}\' != \"{1}\"", scope, f.Key ) ) )
+                String.Join( " AND ", this.Where( f => f.Value ).Select( f => String.Format( "\'{0}\' != \"{1}\"", scope, f.Key ) ) )
             };
             return String.Join( " AND ", parts.Where( p => p.IsNullOrBlank() == false ).Select( p => String.Format( "({0})", p ) ) );
         }

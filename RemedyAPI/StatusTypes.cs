@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace RemedyAPI {
     public enum StatusTypes {
@@ -16,7 +13,7 @@ namespace RemedyAPI {
                 case StatusTypes.Open:
                     return String.Format( "(\'{0}\' < \"{1}\")", "Status", "Resolved" );
                 case StatusTypes.Closed:
-                    return String.Format( "(\'{0}\' >= \"{1}\")", "Status", "Resolved" ); ;
+                    return String.Format( "(\'{0}\' >= \"{1}\")", "Status", "Resolved" );
                 case StatusTypes.All:
                     return String.Empty;
                 default:

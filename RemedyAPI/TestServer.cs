@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-/// This is a very lazy offline imitation of a Remedy Server.
-/// It should be commented/excluded when using in real environment.
 
 namespace BMC.ARSystem {
     class Server {
@@ -31,21 +26,23 @@ namespace BMC.ARSystem {
         public string EntryId;
 
         public FieldValueList( int ID ) {
-            this.EntryId = "INC000000" + ID;
+            EntryId = "INC000000" + ID;
         }
 
         public FieldValueList FieldValues {
             get {
-                var results = new FieldValueList( 1 );
-                results.Add( "Id", this.EntryId );
-                results.Add( "Assigned Group", "CSDO" );
-                results.Add( "Assignee", "Chris Atkin" );
-                results.Add( "Summary", "Something broke" );
-                results.Add( "Service Type", "User Service Restoration" );
-                results.Add( "Status", "Resolved" );
-                results.Add( "Submit Date", DateTime.Now.AddHours( -10 ) );
-                results.Add( "Assigned", DateTime.Now.AddHours( -4 ) );
-                results.Add( "Last Resolved Date", DateTime.Now.AddHours( -1 ) );
+                var results = new FieldValueList( 1 )
+                {
+                    {"Id", EntryId},
+                    {"Assigned Group", "CSDO"},
+                    {"Assignee", "Chris Atkin"},
+                    {"Summary", "Something broke"},
+                    {"Service Type", "User Service Restoration"},
+                    {"Status", "Resolved"},
+                    {"Submit Date", DateTime.Now.AddHours(-10)},
+                    {"Assigned", DateTime.Now.AddHours(-4)},
+                    {"Last Resolved Date", DateTime.Now.AddHours(-1)}
+                };
                 return results;
             }
         }
