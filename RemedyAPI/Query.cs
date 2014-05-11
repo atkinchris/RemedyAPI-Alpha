@@ -36,16 +36,6 @@ namespace RemedyAPI {
             return String.Join( " AND ", parts.Where( p => p.IsNullOrBlank() == false ).Select( p => String.Format( "({0})", p ) ) );
         }
 
-        static public int GetGroupDepth( Server server, string group ) {
-            var query = new Query( null, group );
-            server.ExecuteQuery( query );
-            return query.results.Count;
-        }
-        static public int GetGroupDepth( Server server, string[] groups ) {
-            var query = new Query( null, groups );
-            server.ExecuteQuery( query );
-            return query.results.Count;
-        }
         static public Results GetGroupStack( Server server, string group ) {
             var query = new Query( null, group );
             server.ExecuteQuery( query );
@@ -56,17 +46,11 @@ namespace RemedyAPI {
             server.ExecuteQuery( query );
             return query.results;
         }
-        static public int GetUserDepth( Server server, string user ) {
-            var query = new Query();
-            query.users.Add( user );
-            server.ExecuteQuery( query );
-            return query.results.Count;
+        static public int GetGroupDepth( Server server, string group ) {
+            return GetGroupStack( server, group ).Count;
         }
-        static public int GetUserDepth( Server server, string[] users ) {
-            var query = new Query();
-            query.users.Add( users );
-            server.ExecuteQuery( query );
-            return query.results.Count;
+        static public int GetGroupDepth( Server server, string[] groups ) {
+            return GetGroupStack( server, groups ).Count;
         }
         static public Results GetUserStack( Server server, string user ) {
             var query = new Query();
@@ -79,6 +63,52 @@ namespace RemedyAPI {
             query.users.Add( users );
             server.ExecuteQuery( query );
             return query.results;
+        }
+        static public int GetUserDepth( Server server, string user ) {
+            return GetUserStack(server, user).Count;
+        }
+        static public int GetUserDepth( Server server, string[] users ) {
+            return GetUserStack( server, users ).Count;
+        }
+        static public Results GetResolvedTodayStack( Server server, string group ) {
+            var qualification = string.Format( "(\'{0}\' > \"{1}\")", "Last Resolved Date", DateTime.Today.ToShortDateString() );
+            var query = new Query(qualification, group);
+            query.status = StatusTypes.Closed;
+            server.ExecuteQuery( query );
+            return query.results;
+        }
+        static public Results GetResolvedTodayStack( Server server, string[] groups ) {
+            var qualification = string.Format( "(\'{0}\' > \"{1}\")", "Last Resolved Date", DateTime.Today.ToShortDateString() );
+            var query = new Query( qualification, groups );
+            query.status = StatusTypes.Closed;
+            server.ExecuteQuery( query );
+            return query.results;
+        }
+        static public int GetResolvedTodayDepth( Server server, string group ) {
+            return GetResolvedTodayStack( server, group ).Count;
+        }
+        static public int GetResolvedTodayDepth( Server server, string[] groups ) {
+            return GetResolvedTodayStack(server, groups).Count;
+        }
+        static public Results GetSubmittedTodayStack( Server server, string group ) {
+            var qualification = string.Format( "(\'{0}\' > \"{1}\")", "Submit Date", DateTime.Today.ToShortDateString() );
+            var query = new Query( qualification, group );
+            query.status = StatusTypes.All;
+            server.ExecuteQuery( query );
+            return query.results;
+        }
+        static public Results GetSubmittedTodayStack( Server server, string[] groups ) {
+            var qualification = string.Format( "(\'{0}\' > \"{1}\")", "Submit Date", DateTime.Today.ToShortDateString() );
+            var query = new Query( qualification, groups );
+            query.status = StatusTypes.All;
+            server.ExecuteQuery( query );
+            return query.results;
+        }
+        static public int GetSubmittedTodayDepth( Server server, string group ) {
+            return GetSubmittedTodayStack( server, group ).Count;
+        }
+        static public int GetSubmittedTodayDepth( Server server, string[] groups ) {
+            return GetSubmittedTodayStack( server, groups ).Count;
         }
     }
 }
