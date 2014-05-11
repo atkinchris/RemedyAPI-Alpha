@@ -144,7 +144,9 @@
             this.Controls.Add(this.usernameLabel);
             this.Controls.Add(this.passwordInput);
             this.Controls.Add(this.usernameInput);
+            this.MaximizeBox = false;
             this.Name = "MainForm";
+            this.ShowIcon = false;
             this.Text = "Remedy Connect";
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();

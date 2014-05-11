@@ -20,7 +20,8 @@ namespace RemedyAPI_Example {
         public MainForm() {
             InitializeComponent();
 
-            notifyIcon1.Icon = IconGenerator.GetIcon( @"R!" );
+            notifyIcon1.Icon = IconGenerator.GetIcon( @"R" );
+            notifyIcon1.Text = "R! " + statusLabel.Text;
 
             bw.DoWork += bw_DoWork;
             bw.RunWorkerCompleted += bw_RunWorkerCompleted;
