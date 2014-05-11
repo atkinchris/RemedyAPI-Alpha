@@ -14,7 +14,7 @@ namespace RemedyAPI {
                 return _serverName;
             }
             set {
-                if ( value.IsNullOrBlank() ) {
+                if ( String.IsNullOrWhiteSpace(value) ) {
                     throw new ArgumentException( "Server name must not be blank." );
                 }
                 if ( !Regex.IsMatch( value, @"^[a-zA-Z0-9-]+$" ) ) {
@@ -29,7 +29,7 @@ namespace RemedyAPI {
                 return _formName;
             }
             set {
-                if ( value.IsNullOrBlank() ) {
+                if ( String.IsNullOrWhiteSpace( value ) ) {
                     throw new ArgumentException( "Form name must not be blank." );
                 }
                 if ( !Regex.IsMatch( value, @"^[a-zA-Z0-9: ]+$" ) ) {
@@ -44,7 +44,7 @@ namespace RemedyAPI {
                 return _username;
             }
             set {
-                if ( value.IsNullOrBlank() ) {
+                if ( String.IsNullOrWhiteSpace( value ) ) {
                     throw new ArgumentException( "Username must not be blank." );
                 }
                 if ( !Regex.IsMatch( value, @"^[a-zA-Z0-9\-\.\']+$" ) ) {
@@ -56,7 +56,7 @@ namespace RemedyAPI {
         private string _password;
         public string password {
             set {
-                if ( value.IsNullOrBlank() ) {
+                if ( String.IsNullOrWhiteSpace( value ) ) {
                     throw new ArgumentException( "Password must not be blank." );
                 }
                 _password = value;

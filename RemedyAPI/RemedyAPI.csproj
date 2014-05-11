@@ -68,7 +68,6 @@
     <Compile Include="Results.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="StatusTypes.cs" />
-    <Compile Include="StringExtensions.cs" />
     <Compile Include="TestServer.cs" />
   </ItemGroup>
   <ItemGroup>

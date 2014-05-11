@@ -18,7 +18,7 @@ namespace RemedyAPI {
         }
 
         public new void Add( string filter, bool exclude = false ) {
-            if ( filter.IsNullOrBlank() ) {
+            if ( String.IsNullOrWhiteSpace(filter) ) {
                 throw new ArgumentException( "Filter must not be blank." );
             }
             if ( !Regex.IsMatch( filter, validation ) ) {
@@ -36,7 +36,7 @@ namespace RemedyAPI {
                 String.Join( " OR ", this.Where( f => f.Value == false ).Select( f => String.Format( "\'{0}\' = \"{1}\"", scope, f.Key ) ) ),
                 String.Join( " AND ", this.Where( f => f.Value ).Select( f => String.Format( "\'{0}\' != \"{1}\"", scope, f.Key ) ) )
             };
-            return String.Join( " AND ", parts.Where( p => p.IsNullOrBlank() == false ).Select( p => String.Format( "({0})", p ) ) );
+            return String.Join( " AND ", parts.Where( p => String.IsNullOrWhiteSpace(p) == false ).Select( p => String.Format( "({0})", p ) ) );
         }
     }
 

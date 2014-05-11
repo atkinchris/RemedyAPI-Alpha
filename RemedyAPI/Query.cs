@@ -34,7 +34,7 @@ namespace RemedyAPI {
                 status.ToQuery(),
                 qualification
             };
-            return String.Join( " AND ", parts.Where( p => p.IsNullOrBlank() == false ).Select( p => String.Format( "({0})", p ) ) );
+            return String.Join( " AND ", parts.Where( p => String.IsNullOrWhiteSpace(p) == false ).Select( p => String.Format( "({0})", p ) ) );
         }
 
         static public Results GetGroupStack( Server server, string group ) {
