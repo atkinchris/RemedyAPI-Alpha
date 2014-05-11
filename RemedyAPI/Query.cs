@@ -92,23 +92,43 @@ namespace RemedyAPI {
         static public int GetUserDepth( Server server, string[] users ) {
             return GetUserStack( server, users ).Count;
         }
-        static public Results GetResolvedTodayStack( Server server, string group ) {
+        static public Results GetGroupResolvedTodayStack( Server server, string group ) {
             var qualification = string.Format( "(\'{0}\' > \"{1}\")", "Last Resolved Date", DateTime.Today.ToShortDateString() );
             var query = new Query( qualification, group ) { status = StatusTypes.Closed };
             server.ExecuteQuery( query );
             return query.results;
         }
-        static public Results GetResolvedTodayStack( Server server, string[] groups ) {
+        static public Results GetGroupResolvedTodayStack( Server server, string[] groups ) {
             var qualification = string.Format( "(\'{0}\' > \"{1}\")", "Last Resolved Date", DateTime.Today.ToShortDateString() );
             var query = new Query( qualification, groups ) { status = StatusTypes.Closed };
             server.ExecuteQuery( query );
             return query.results;
         }
-        static public int GetResolvedTodayDepth( Server server, string group ) {
-            return GetResolvedTodayStack( server, group ).Count;
+        static public int GetGroupResolvedTodayDepth( Server server, string group ) {
+            return GetGroupResolvedTodayStack( server, group ).Count;
         }
-        static public int GetResolvedTodayDepth( Server server, string[] groups ) {
-            return GetResolvedTodayStack( server, groups ).Count;
+        static public int GetGroupResolvedTodayDepth( Server server, string[] groups ) {
+            return GetGroupResolvedTodayStack( server, groups ).Count;
+        }
+        static public Results GetUserResolvedTodayStack( Server server, string user ) {
+            var qualification = string.Format( "(\'{0}\' > \"{1}\")", "Last Resolved Date", DateTime.Today.ToShortDateString() );
+            var query = new Query( qualification ) { status = StatusTypes.Closed };
+            query.users.Add( user );
+            server.ExecuteQuery( query );
+            return query.results;
+        }
+        static public Results GetUserResolvedTodayStack( Server server, string[] users ) {
+            var qualification = string.Format( "(\'{0}\' > \"{1}\")", "Last Resolved Date", DateTime.Today.ToShortDateString() );
+            var query = new Query( qualification ) { status = StatusTypes.Closed };
+            query.users.Add( users );
+            server.ExecuteQuery( query );
+            return query.results;
+        }
+        static public int GetUserResolvedTodayDepth( Server server, string group ) {
+            return GetUserResolvedTodayStack( server, group ).Count;
+        }
+        static public int GetUserResolvedTodayDepth( Server server, string[] groups ) {
+            return GetUserResolvedTodayStack( server, groups ).Count;
         }
         static public Results GetSubmittedTodayStack( Server server, string group ) {
             var qualification = string.Format( "(\'{0}\' > \"{1}\")", "Submit Date", DateTime.Today.ToShortDateString() );
@@ -127,6 +147,36 @@ namespace RemedyAPI {
         }
         static public int GetSubmittedTodayDepth( Server server, string[] groups ) {
             return GetSubmittedTodayStack( server, groups ).Count;
+        }
+        static public Dictionary<DateTime, int> GetSubmittedTodayGrouped( Server server, string[] groups, int interval ) {
+            var results = Query.GetSubmittedTodayStack( server, groups );
+
+            var output = new Dictionary<DateTime, int>();
+            for ( var i = DateTime.Today; i < DateTime.Now; i = i.AddMinutes( interval ) ) {
+                output.Add( i, results.Count( r => r.Value.Assigned < i ) );
+            }
+
+            return output;
+        }
+        static public Dictionary<DateTime, int> GetResolvedTodayGrouped( Server server, string[] groups, int interval ) {
+            var results = Query.GetSubmittedTodayStack( server, groups );
+
+            var output = new Dictionary<DateTime, int>();
+            for ( var i = DateTime.Today; i < DateTime.Now; i = i.AddMinutes( interval ) ) {
+                output.Add( i, results.Count( r => r.Value.Resolved < i ) );
+            }
+
+            return output;
+        }
+        static public Dictionary<DateTime, int> GetUserResolvedTodayGrouped( Server server, string[] groups, int interval ) {
+            var results = Query.GetUserResolvedTodayStack( server, groups );
+
+            var output = new Dictionary<DateTime, int>();
+            for ( var i = DateTime.Today; i < DateTime.Now; i = i.AddMinutes( interval ) ) {
+                output.Add( i, results.Count( r => r.Value.Assigned < i ) );
+            }
+
+            return output;
         }
     }
 }
