@@ -43,9 +43,9 @@ namespace BMC.ARSystem {
                 results.Add( "Summary", "Something broke" );
                 results.Add( "Service Type", "User Service Restoration" );
                 results.Add( "Status", "Resolved" );
-                results.Add( "Created", DateTime.Now.AddHours( -10 ) );
+                results.Add( "Submit Date", DateTime.Now.AddHours( -10 ) );
                 results.Add( "Assigned", DateTime.Now.AddHours( -4 ) );
-                results.Add( "Resolved", DateTime.Now.AddHours( -1 ) );
+                results.Add( "Last Resolved Date", DateTime.Now.AddHours( -1 ) );
                 return results;
             }
         }
