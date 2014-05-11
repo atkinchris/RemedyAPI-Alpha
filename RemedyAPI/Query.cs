@@ -12,19 +12,40 @@ namespace RemedyAPI {
         public string qualification;
         public Results results;
 
+        /// <summary>
+        /// Create a new empty query.
+        /// </summary>
         public Query() { }
+        /// <summary>
+        /// Create a new query with specified qualification.
+        /// </summary>
+        /// <param name="qualification">Query qualification as escaped string</param>
         public Query( string qualification ) {
             this.qualification = qualification;
         }
+        /// <summary>
+        /// Create a new query with specified qualification and group include filter.
+        /// </summary>
+        /// <param name="qualification">Query qualification as escaped string</param>
+        /// <param name="group">Group to include</param>
         public Query( string qualification, string group ) {
             this.qualification = qualification;
             groups.Add( group );
         }
+        /// <summary>
+        /// Create a new query with specified qualification and groups include filter.
+        /// </summary>
+        /// <param name="qualification">Query qualification as escaped string</param>
+        /// <param name="groups">Groups to include</param>
         public Query( string qualification, string[] groups ) {
             this.qualification = qualification;
             this.groups.Add( groups );
         }
 
+        /// <summary>
+        /// Return query as formatted query string, including all its filters and qualifications.
+        /// </summary>
+        /// <returns>Formatted query string</returns>
         public override string ToString() {
             var parts = new List<string>
             {

@@ -1,6 +1,10 @@
 ﻿using System;
 
 namespace RemedyAPI {
+
+    /// <summary>
+    /// Enum of status types to filter by.
+    /// </summary>
     public enum StatusTypes {
         All,
         Open,
@@ -8,6 +12,12 @@ namespace RemedyAPI {
     }
 
     static class StatusTypesExtensions {
+
+        /// <summary>
+        /// Extension to StatusTypes to return type as query string.
+        /// </summary>
+        /// <param name="status">this StatusTypes</param>
+        /// <returns>StatusTypes as query string</returns>
         internal static string ToQuery( this StatusTypes status ) {
             switch ( status ) {
                 case StatusTypes.Open:

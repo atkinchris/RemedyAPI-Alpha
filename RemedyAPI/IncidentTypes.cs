@@ -2,6 +2,9 @@
 
 namespace RemedyAPI {
 
+    /// <summary>
+    /// Enum of incident types to filter by.
+    /// </summary>
     public enum IncidentTypes {
         All,
         Incidents,
@@ -9,6 +12,12 @@ namespace RemedyAPI {
     }
 
     static class IncidentTypesExtensions {
+
+        /// <summary>
+        /// Extension to IncidentTypes to return type as query string.
+        /// </summary>
+        /// <param name="type">this IncidentTypes</param>
+        /// <returns>IncidentType as query string</returns>
         internal static string ToQuery( this IncidentTypes type ) {
             switch ( type ) {
                 case IncidentTypes.Alerts:

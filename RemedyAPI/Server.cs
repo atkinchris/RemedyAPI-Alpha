@@ -83,6 +83,15 @@ namespace RemedyAPI {
             }
         }
 
+        /// <summary>
+        /// Creates a new ARSystem Server with credentials and server details.
+        /// </summary>
+        /// <param name="username">Username to use for connection</param>
+        /// <param name="password">Password to use for connection</param>
+        /// <param name="server">ARSystem Server name</param>
+        /// <param name="form">Form name</param>
+        /// <param name="maxRecords">Maximum number of records to return in queries</param>
+        /// <param name="cacheTime">Length of time to cache results for</param>
         public Server( string username, string password, string server = "a-rrm-ars-p", string form = "HPD:Help Desk", int maxRecords = 500, int cacheTime = 60 ) {
             this.username = username;
             this.password = password;
@@ -92,18 +101,26 @@ namespace RemedyAPI {
             this.cacheTime = cacheTime;
         }
 
-        public void Login() {
+        private void Login() {
             _arserver.Login( _serverName, _username, _password );
         }
-        public void Logout() {
+        private void Logout() {
             _arserver.Logout();
         }
 
+        /// <summary>
+        /// Execute a single Query against the server.
+        /// </summary>
+        /// <param name="query">Query object to execute</param>
         public void ExecuteQuery( Query query ) {
             Login();
             RunQuery( query );
             Logout();
         }
+        /// <summary>
+        /// Execute multiple queries against the server in a single session.
+        /// </summary>
+        /// <param name="queries">Queries object containing queries</param>
         public void ExecuteQuery( Queries queries ) {
             Login();
             foreach ( var query in queries.Values ) {
