@@ -168,8 +168,8 @@ namespace RemedyAPI {
 
             return output;
         }
-        static public Dictionary<DateTime, int> GetUserResolvedTodayGrouped( Server server, string[] groups, int interval ) {
-            var results = Query.GetUserResolvedTodayStack( server, groups );
+        static public Dictionary<DateTime, int> GetUserResolvedTodayGrouped( Server server, string[] users, int interval ) {
+            var results = Query.GetUserResolvedTodayStack( server, users );
 
             var output = new Dictionary<DateTime, int>();
             for ( var i = DateTime.Today; i < DateTime.Now; i = i.AddMinutes( interval ) ) {
