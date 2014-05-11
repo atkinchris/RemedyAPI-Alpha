@@ -20,7 +20,7 @@ namespace RemedyAPI {
         public string Summary;
         public string Type;
         public string Status;
-        public DateTime Created;
+        public DateTime Submitted;
         public DateTime Assigned;
         public DateTime Resolved;
 
@@ -31,9 +31,9 @@ namespace RemedyAPI {
             Summary = fieldValues["Summary"] as string;
             Type = fieldValues["Service Type"] as string;
             Status = fieldValues["Status"] as string;
-            Created = Convert.ToDateTime( fieldValues["Created"] );
+            Submitted = Convert.ToDateTime( fieldValues["Submit Date"] );
             Assigned = Convert.ToDateTime( fieldValues["Assigned"] );
-            Resolved = Convert.ToDateTime( fieldValues["Resolved"] );
+            Resolved = Convert.ToDateTime( fieldValues["Last Resolved Date"] );
         }
     }
 }
