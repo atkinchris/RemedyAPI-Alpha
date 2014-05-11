@@ -11,8 +11,8 @@ namespace RemedyAPI_Dev {
             var query = new Query();
             server.ExecuteQuery( query );
 
-            foreach ( var result in query.results ) {
-                Console.WriteLine( result.Key + ": " + result.Value["INCID"].ToString() );
+            foreach ( var result in query.results.Values ) {
+                Console.WriteLine( result.Id + ": " + result.Created );
             }
             Console.ReadLine();
         }
