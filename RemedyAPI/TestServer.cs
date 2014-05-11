@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 
 namespace BMC.ARSystem {
-    class Server {
 
+    static internal class RNG {
+        static public Random n = new Random();
+    }
+
+    class Server {
         public EntryFieldValueList GetListEntryWithFields( string form, string qualification, int[] fields, uint startRecord, uint maxRecord ) {
             var results = new EntryFieldValueList();
             for ( int i = 156; i <= 180; i++ ) {
@@ -13,9 +17,7 @@ namespace BMC.ARSystem {
         }
 
         public void Login( string server, string username, string password ) { }
-
         public void Logout() { }
-
     }
 
     public class EntryFieldValueList : List<FieldValueList> {
@@ -39,9 +41,9 @@ namespace BMC.ARSystem {
                     {"Summary", "Something broke"},
                     {"Service Type", "User Service Restoration"},
                     {"Status", "Resolved"},
-                    {"Submit Date", DateTime.Now.AddHours(-10)},
+                    {"Submit Date", DateTime.Now.AddMinutes( -RNG.n.Next(0, 4*60))},
                     {"Assigned", DateTime.Now.AddHours(-4)},
-                    {"Last Resolved Date", DateTime.Now.AddHours(-1)}
+                    {"Last Resolved Date", DateTime.Now.AddMinutes( -RNG.n.Next(0, 4*60))}
                 };
                 return results;
             }
