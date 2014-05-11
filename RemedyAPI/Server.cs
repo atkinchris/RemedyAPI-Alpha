@@ -95,7 +95,6 @@ namespace RemedyAPI {
         public void Login() {
             _arserver.Login( _serverName, _username, _password );
         }
-
         public void Logout() {
             _arserver.Logout();
         }
@@ -105,7 +104,6 @@ namespace RemedyAPI {
             RunQuery( query );
             Logout();
         }
-
         public void ExecuteQuery( Queries queries ) {
             Login();
             foreach ( var query in queries.Values ) {
@@ -121,7 +119,7 @@ namespace RemedyAPI {
             if ( results == null ) {
                 var efvl = _arserver.GetListEntryWithFields( _formName, query.ToString(), query.fields.ToArray(), 0, _maxRecords );
                 results = new Results( efvl );
-                cache.Set( queryString, results, DateTime.Now.AddSeconds( 60 ) );
+                cache.Set( queryString, results, DateTime.Now.AddSeconds( _cacheTime ) );
             }
 
             query.results = results;
