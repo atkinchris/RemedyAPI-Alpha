@@ -63,7 +63,7 @@ namespace RemedyAPI {
         }
         protected override string validation {
             get {
-                return  @"^[a-zA-Z0-9\:\-\&\ ]+$";
+                return @"^[a-zA-Z0-9\:\-\&\ ]+$";
             }
         }
     }
