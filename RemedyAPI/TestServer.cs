@@ -12,7 +12,7 @@ namespace BMC.ARSystem {
         public EntryFieldValueList GetListEntryWithFields( string form, string qualification, int[] fields, uint startRecord, uint maxRecord ) {
             var results = new EntryFieldValueList();
             for ( int i = 156; i <= 180; i++ ) {
-                results.Add( new FieldValueList(i) );
+                results.Add( new FieldValueList( i ) );
             }
             return results;
         }
@@ -26,7 +26,7 @@ namespace BMC.ARSystem {
     public class EntryFieldValueList : List<FieldValueList> {
     }
 
-    public class FieldValueList : Dictionary<string, string> {
+    public class FieldValueList : Dictionary<string, object> {
 
         public string EntryId;
 
@@ -35,9 +35,17 @@ namespace BMC.ARSystem {
         }
 
         public FieldValueList FieldValues {
-            get {                
+            get {
                 var results = new FieldValueList( 1 );
-                results.Add( "INCID", "TEST" );
+                results.Add( "Id", this.EntryId );
+                results.Add( "Assigned Group", "CSDO" );
+                results.Add( "Assignee", "Chris Atkin" );
+                results.Add( "Summary", "Something broke" );
+                results.Add( "Service Type", "User Service Restoration" );
+                results.Add( "Status", "Resolved" );
+                results.Add( "Created", DateTime.Now.AddHours( -10 ) );
+                results.Add( "Assigned", DateTime.Now.AddHours( -4 ) );
+                results.Add( "Resolved", DateTime.Now.AddHours( -1 ) );
                 return results;
             }
         }
