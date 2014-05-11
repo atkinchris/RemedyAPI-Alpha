@@ -148,7 +148,7 @@ namespace RemedyAPI {
         static public int GetSubmittedTodayDepth( Server server, string[] groups ) {
             return GetSubmittedTodayStack( server, groups ).Count;
         }
-        static public Dictionary<DateTime, int> GetSubmittedTodayGrouped( Server server, string[] groups, int interval ) {
+        static public Dictionary<DateTime, int> GetSubmittedTodayGrouped( Server server, string[] groups, int interval = 60 ) {
             var results = Query.GetSubmittedTodayStack( server, groups );
 
             var output = new Dictionary<DateTime, int>();
@@ -158,7 +158,7 @@ namespace RemedyAPI {
 
             return output;
         }
-        static public Dictionary<DateTime, int> GetResolvedTodayGrouped( Server server, string[] groups, int interval ) {
+        static public Dictionary<DateTime, int> GetResolvedTodayGrouped( Server server, string[] groups, int interval = 60 ) {
             var results = Query.GetSubmittedTodayStack( server, groups );
 
             var output = new Dictionary<DateTime, int>();
@@ -168,7 +168,7 @@ namespace RemedyAPI {
 
             return output;
         }
-        static public Dictionary<DateTime, int> GetUserResolvedTodayGrouped( Server server, string[] users, int interval ) {
+        static public Dictionary<DateTime, int> GetUserResolvedTodayGrouped( Server server, string[] users, int interval = 60 ) {
             var results = Query.GetUserResolvedTodayStack( server, users );
 
             var output = new Dictionary<DateTime, int>();
