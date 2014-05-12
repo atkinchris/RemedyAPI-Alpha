@@ -134,7 +134,7 @@ namespace RemedyAPI {
             var results = cache[queryString] as Results;
 
             if ( results == null ) {
-                var efvl = _arserver.GetListEntryWithFields( _formName, query.ToString(), query.fields.ToArray(), 0, _maxRecords );
+                var efvl = _arserver.GetListEntryWithFields( _formName, queryString, query.fields.ToArray(), 0, _maxRecords );
                 results = new Results( efvl );
                 cache.Set( queryString, results, DateTime.Now.AddSeconds( _cacheTime ) );
             }
