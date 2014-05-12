@@ -23,7 +23,7 @@ namespace BMC.ARSystem {
     public class EntryFieldValueList : List<FieldValueList> {
     }
 
-    public class FieldValueList : Dictionary<string, object> {
+    public class FieldValueList : Dictionary<int, object> {
 
         public string EntryId;
 
@@ -35,12 +35,12 @@ namespace BMC.ARSystem {
             get {
                 var results = new FieldValueList( 1 )
                 {
-                    {"Id", EntryId},
-                    {"Assigned Group", "CSDO"},
-                    {"Assignee", "Chris Atkin"},
-                    {"Summary", "Something broke"},
-                    {"Service Type", "User Service Restoration"},
-                    {"Status", "Resolved"},
+                    {1000000161, EntryId},
+                    {1000000217, "CSDO"},
+                    {1000000218, "Chris Atkin"},
+                    {1000000000, "Something broke"},
+                    {1000003009, "User Service Restoration"},
+                    {1000000164, "Resolved"},
                     {"Submit Date", DateTime.Now.AddMinutes( -RNG.n.Next(0, 4*60))},
                     {"Assigned", DateTime.Now.AddHours(-4)},
                     {"Last Resolved Date", DateTime.Now.AddMinutes( -RNG.n.Next(0, 4*60))}

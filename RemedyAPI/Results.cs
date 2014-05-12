@@ -25,15 +25,14 @@ namespace RemedyAPI {
         public DateTime Resolved;
 
         public Result( FieldValueList fieldValues ) {
-            Id = fieldValues["Id"] as string;
-            AssignedGroup = fieldValues["Assigned Group"] as string;
-            Assignee = fieldValues["Assignee"] as string;
-            Summary = fieldValues["Summary"] as string;
-            Type = fieldValues["Service Type"] as string;
-            Status = fieldValues["Status"] as string;
-            Submitted = Convert.ToDateTime( fieldValues["Submit Date"] );
-            Assigned = Convert.ToDateTime( fieldValues["Assigned"] );
-            Resolved = Convert.ToDateTime( fieldValues["Last Resolved Date"] );
+            Id = fieldValues[ 1000000161 ] as string;
+            AssignedGroup = fieldValues[ 1000000217 ] as string;
+            Assignee = fieldValues[ 1000000218 ] as string;
+            Summary = fieldValues[ 1000000000 ] as string;
+            Type = fieldValues[ 1000003009 ] as string;
+            Status = fieldValues[ 1000000099 ] as string;
+            Submitted = Convert.ToDateTime( fieldValues[ 3 ] as string );
+            Resolved = Convert.ToDateTime( fieldValues[ 1000000563 ] as string );
         }
     }
 }
