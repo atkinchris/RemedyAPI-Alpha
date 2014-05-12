@@ -35,7 +35,7 @@ namespace RemedyAPI_Example {
                 var identity = windowsIdentity.Name;
                 usernameInput.Text = identity.Substring( identity.IndexOf( @"\", StringComparison.Ordinal ) + 1 );
             }
-            outputPathText.Text = @"results.csv";
+            outputPathText.Text = @"Z:\stats\results.csv";
         }
 
         private void Start( object sender, EventArgs e ) {
@@ -54,7 +54,9 @@ namespace RemedyAPI_Example {
                 return;
             }
 
-            remedy = new Server( username, password );
+            remedy = new Server( username, password ) { 
+                cacheTime = 45
+            };
             queries = new Queries();
 
             var groups = new[] {
@@ -65,9 +67,8 @@ namespace RemedyAPI_Example {
             };
 
             string today = DateTime.Today.ToShortDateString();
-            queries.Add( "Submitted", new Query( string.Format( "(\'{0}\' > \"{1}\")", "Submit Date", today ), groups ) );
-            queries.Add( "Resolved", new Query( string.Format( "(\'{0}\' > \"{1}\")", "Last Resolved Date", today ), groups ) );
-
+            queries.Add( "Submitted", new Query( string.Format( "(\'{0}\' > \"{1}\")", "Submit Date", today ), groups ) { status = StatusTypes.All } );
+            queries.Add( "Resolved", new Query( string.Format( "(\'{0}\' > \"{1}\")", "Last Resolved Date", today ), groups ) { status = StatusTypes.Closed} );
             var outstandingQuery = new Query( string.Format( "(\'{0}\' < \"{1}\")", "Status", "Resolved" ), groups );
             outstandingQuery.users.Add( "Ian Taylor", true );
             queries.Add( "Outstanding", outstandingQuery );
