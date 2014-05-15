@@ -56,8 +56,8 @@ namespace RemedyAPI {
         AssignedGroup = 1000000217,
         Assignee = 1000000218,
         Summary = 1000000000,
-        Type = 1000003009,
-        Status = 1000000099,
+        Type = 1000000099,
+        Status = 7,
         Submitted = 3,
         Resolved = 1000000563
     }
