@@ -1,18 +1,18 @@
 ﻿using System;
-using System.Runtime.Caching;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace RemedyAPI_Test {
     class Program {
 
-        static void Main() {
+        static void Main()
+        {
 
-            var server = new BMC.ARSystem.Server();
+            var list = new Dictionary<long, int> {{DateTime.Now.ToJavaScriptTimestamp(), 1}, {DateTime.Now.AddDays(1).ToJavaScriptTimestamp(), 3}};
+            var json = JsonConvert.SerializeObject( list );
 
-            server.Login( "a-rrm-ars-p", Credentials.GetUsername(), Credentials.GetPassword() );
-
-            var info = string.Format( "(\'{0}\' < \"{1}\") AND (\'{2}\' = \"{3}\")", "Status", "Resolved", "Assignee", "Christopher Atkin");
-
-            var results = server.GetListEntry( "HPD:Help Desk", info );
+            Console.Write(json);
+            Console.ReadLine();
 
         }
     }
