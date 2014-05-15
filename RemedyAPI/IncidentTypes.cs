@@ -7,8 +7,8 @@ namespace RemedyAPI {
     /// </summary>
     public enum IncidentTypes {
         All,
-        Incidents,
-        Alerts
+        User,
+        Infrastructure
     }
 
     static class IncidentTypesExtensions {
@@ -20,12 +20,10 @@ namespace RemedyAPI {
         /// <returns>IncidentType as query string</returns>
         internal static string ToQuery( this IncidentTypes type ) {
             switch ( type ) {
-                case IncidentTypes.Alerts:
+                case IncidentTypes.Infrastructure:
                     return String.Format( "(\'{0}\' >= \"{1}\")", "Service Type", "Infrastructure Restoration" );
-                case IncidentTypes.Incidents:
+                case IncidentTypes.User:
                     return String.Format( "(\'{0}\' < \"{1}\")", "Service Type", "Infrastructure Restoration" );
-                case IncidentTypes.All:
-                    return String.Empty;
                 default:
                     return String.Empty;
             }

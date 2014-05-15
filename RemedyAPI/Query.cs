@@ -6,9 +6,8 @@ namespace RemedyAPI {
     public class Query {
         public Groups groups = new Groups();
         public Users users = new Users();
-        public Fields fields = new Fields();
-        public IncidentTypes types = IncidentTypes.Incidents;
-        public StatusTypes status = StatusTypes.Open;
+        public IncidentTypes types = IncidentTypes.User;
+        public StatusTypes status;
         public string qualification;
         public Results results;
 
@@ -153,7 +152,7 @@ namespace RemedyAPI {
 
             var output = new Dictionary<DateTime, int>();
             for ( var i = DateTime.Today; i < DateTime.Now; i = i.AddMinutes( interval ) ) {
-                output.Add( i, results.Count( r => r.Value.Assigned < i ) );
+                output.Add( i, results.Count( r => r.Value.submitted < i ) );
             }
 
             return output;
@@ -163,7 +162,7 @@ namespace RemedyAPI {
 
             var output = new Dictionary<DateTime, int>();
             for ( var i = DateTime.Today; i < DateTime.Now; i = i.AddMinutes( interval ) ) {
-                output.Add( i, results.Count( r => r.Value.Resolved < i ) );
+                output.Add( i, results.Count( r => r.Value.resolved < i ) );
             }
 
             return output;
@@ -173,7 +172,7 @@ namespace RemedyAPI {
 
             var output = new Dictionary<DateTime, int>();
             for ( var i = DateTime.Today; i < DateTime.Now; i = i.AddMinutes( interval ) ) {
-                output.Add( i, results.Count( r => r.Value.Assigned < i ) );
+                output.Add( i, results.Count( r => r.Value.submitted < i ) );
             }
 
             return output;

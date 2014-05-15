@@ -59,8 +59,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Fields.cs" />
     <Compile Include="DictionaryFilter.cs" />
+    <Compile Include="Incident.cs" />
     <Compile Include="IncidentTypes.cs" />
     <Compile Include="Queries.cs" />
     <Compile Include="Query.cs" />
