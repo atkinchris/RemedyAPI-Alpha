@@ -10,7 +10,7 @@ namespace RemedyAPI {
         /// </summary>
         /// <returns>Dictionary of titles and counts</returns>
         public Dictionary<string, int> GetResultsCount() {
-            return this.ToDictionary( query => query.Key, query => query.Value.results.Count );
+            return this.ToDictionary( query => query.Key, query => query.Value.Results.Count );
         }
 
         /// <summary>

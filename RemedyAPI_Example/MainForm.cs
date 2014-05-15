@@ -11,11 +11,11 @@ using Timer = System.Timers.Timer;
 namespace RemedyAPI_Example {
     public partial class MainForm : Form {
 
-        private Queries queries;
-        private Server remedy;
-        private readonly BackgroundWorker bw = new BackgroundWorker();
-        private readonly Timer timer = new Timer();
-        private string resultsPath;
+        private Queries _queries;
+        private Server _remedy;
+        private readonly BackgroundWorker _bw = new BackgroundWorker();
+        private readonly Timer _timer = new Timer();
+        private string _resultsPath;
 
         public MainForm() {
             InitializeComponent();
@@ -23,12 +23,12 @@ namespace RemedyAPI_Example {
             notifyIcon1.Icon = IconGenerator.GetIcon( @"R" );
             notifyIcon1.Text = "R! " + statusLabel.Text;
 
-            bw.DoWork += bw_DoWork;
-            bw.RunWorkerCompleted += bw_RunWorkerCompleted;
+            _bw.DoWork += bw_DoWork;
+            _bw.RunWorkerCompleted += bw_RunWorkerCompleted;
 
             startButton.Click += Start;
-            timer.Interval = 60 * 1000;
-            timer.Elapsed += RefreshData;
+            _timer.Interval = 60 * 1000;
+            _timer.Elapsed += RefreshData;
 
             var windowsIdentity = WindowsIdentity.GetCurrent();
             if ( windowsIdentity != null ) {
@@ -42,7 +42,7 @@ namespace RemedyAPI_Example {
 
             var username = usernameInput.Text;
             var password = passwordInput.Text;
-            resultsPath = outputPathText.Text;
+            _resultsPath = outputPathText.Text;
 
             if ( string.IsNullOrEmpty( username ) ) {
                 MessageBox.Show( "Invalid username", "Oops", MessageBoxButtons.OK, MessageBoxIcon.Error );
@@ -54,10 +54,10 @@ namespace RemedyAPI_Example {
                 return;
             }
 
-            remedy = new Server( username, password ) { 
-                cacheTime = 45
+            _remedy = new Server( username, password ) { 
+                CacheTime = 45
             };
-            queries = new Queries();
+            _queries = new Queries();
 
             var groups = new[] {
                 "Collaboration Services",
@@ -67,18 +67,18 @@ namespace RemedyAPI_Example {
             };
 
             string today = DateTime.Today.ToShortDateString();
-            queries.Add( "Submitted", new Query( string.Format( "(\'{0}\' > \"{1}\")", "Submit Date", today ), groups ) { status = StatusTypes.All } );
-            queries.Add( "Resolved", new Query( string.Format( "(\'{0}\' > \"{1}\")", "Last Resolved Date", today ), groups ) { status = StatusTypes.Closed} );
+            _queries.Add( "Submitted", new Query( string.Format( "(\'{0}\' > \"{1}\")", "Submit Date", today ), groups ) { Status = StatusTypes.All } );
+            _queries.Add( "Resolved", new Query( string.Format( "(\'{0}\' > \"{1}\")", "Last Resolved Date", today ), groups ) { Status = StatusTypes.Closed} );
             var outstandingQuery = new Query( string.Format( "(\'{0}\' < \"{1}\")", "Status", "Resolved" ), groups );
-            outstandingQuery.users.Add( "Ian Taylor", true );
-            queries.Add( "Outstanding", outstandingQuery );
+            outstandingQuery.Users.Add( "Ian Taylor", true );
+            _queries.Add( "Outstanding", outstandingQuery );
             ToggleRefresh( true );
             RefreshData( null, null );
         }
 
         private void Stop( object sender, EventArgs e ) {
             ToggleRefresh( false );
-            remedy = null;
+            _remedy = null;
         }
 
         private void ToggleRefresh( bool start ) {
@@ -95,18 +95,18 @@ namespace RemedyAPI_Example {
                 startButton.Click -= Stop;
                 startButton.Click += Start;
             }
-            timer.Enabled = start;
+            _timer.Enabled = start;
         }
 
         private void RefreshData( object source, ElapsedEventArgs e ) {
             statusLabel.Text = "Refreshing data...";
-            if ( bw.IsBusy != true ) {
-                bw.RunWorkerAsync();
+            if ( _bw.IsBusy != true ) {
+                _bw.RunWorkerAsync();
             }
         }
 
         private void bw_DoWork( object sender, DoWorkEventArgs e ) {
-            remedy.ExecuteQuery( queries );
+            _remedy.ExecuteQuery( _queries );
         }
 
         private void bw_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {
@@ -120,16 +120,16 @@ namespace RemedyAPI_Example {
 
         private void UpdateResults() {
             statusLabel.Text = "Ready.";
-            var results = queries.GetResultsCount();
+            var results = _queries.GetResultsCount();
 
-            if ( !File.Exists( resultsPath ) ) {
+            if ( !File.Exists( _resultsPath ) ) {
                 var titles = new StringBuilder();
                 titles.AppendFormat( "{0}", "Timecode" );
                 foreach ( var title in results.Keys ) {
                     titles.AppendFormat( ",{0}", title );
                 }
                 titles.AppendLine();
-                File.WriteAllText( resultsPath, titles.ToString() );
+                File.WriteAllText( _resultsPath, titles.ToString() );
             }
 
             var output = new StringBuilder();
@@ -137,7 +137,7 @@ namespace RemedyAPI_Example {
             foreach ( var result in results.Values ) {
                 output.AppendFormat( ",{0}", result );
             }
-            using ( StreamWriter sw = File.AppendText( resultsPath ) ) {
+            using ( StreamWriter sw = File.AppendText( _resultsPath ) ) {
                 sw.WriteLine( output.ToString() );
             }
         }
@@ -149,7 +149,7 @@ namespace RemedyAPI_Example {
             }
         }
 
-        private void notifyIcon1_DoubleClick( object Sender, EventArgs e ) {
+        private void notifyIcon1_DoubleClick( object sender, EventArgs e ) {
             // Show the form when the user double clicks on the notify icon.
             Show();
 

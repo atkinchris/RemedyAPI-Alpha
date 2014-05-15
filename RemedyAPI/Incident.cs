@@ -1,34 +1,31 @@
 ﻿using BMC.ARSystem;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace RemedyAPI {
     public class Incident {
-        public string entryId;
-        public string incidentNumber;
-        public string assignedGroup;
-        public string assignee;
-        public string summary;
-        public IncidentType type;
-        public Status status;
-        public DateTime submitted;
-        public DateTime? resolved;
+        public string EntryId;
+        public string IncidentNumber;
+        public string AssignedGroup;
+        public string Assignee;
+        public string Summary;
+        public IncidentType Type;
+        public Status Status;
+        public DateTime Submitted;
+        public DateTime? Resolved;
 
         public Incident( FieldValueList fV ) {
-            entryId = fV[ FieldId.EntryId ].ToString();
-            incidentNumber = fV[ FieldId.IncidentNumber ].ToString();
-            assignedGroup = fV[ FieldId.AssignedGroup ].ToString();
-            assignee = fV[ FieldId.Assignee ].ToString();
-            summary = fV[ FieldId.Summary ].ToString();
-            type = (IncidentType)fV[ FieldId.Type ];
-            status = (Status)fV[ FieldId.Status ];
-            submitted = Convert.ToDateTime( fV[ FieldId.Submitted ] );
+            EntryId = fV[ FieldId.EntryId ].ToString();
+            IncidentNumber = fV[ FieldId.IncidentNumber ].ToString();
+            AssignedGroup = fV[ FieldId.AssignedGroup ].ToString();
+            Assignee = fV[ FieldId.Assignee ].ToString();
+            Summary = fV[ FieldId.Summary ].ToString();
+            Type = (IncidentType)fV[ FieldId.Type ];
+            Status = (Status)fV[ FieldId.Status ];
+            Submitted = Convert.ToDateTime( fV[ FieldId.Submitted ] );
             if ( fV[ FieldId.Resolved ] != DBNull.Value ) {
-                resolved = Convert.ToDateTime( fV[ FieldId.Resolved ] );
+                Resolved = Convert.ToDateTime( fV[ FieldId.Resolved ] );
             } else {
-                resolved = null;
+                Resolved = null;
             }
         }
     }

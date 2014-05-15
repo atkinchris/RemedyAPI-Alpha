@@ -7,10 +7,10 @@ namespace RemedyAPI {
     public class Server {
 
         private readonly BMC.ARSystem.Server _arserver = new BMC.ARSystem.Server();
-        private readonly ObjectCache cache = MemoryCache.Default;
+        private readonly ObjectCache _cache = MemoryCache.Default;
 
         private string _serverName;
-        public string serverName {
+        public string ServerName {
             get {
                 return _serverName;
             }
@@ -25,7 +25,7 @@ namespace RemedyAPI {
             }
         }
         private string _formName;
-        public string formName {
+        public string FormName {
             get {
                 return _formName;
             }
@@ -40,7 +40,7 @@ namespace RemedyAPI {
             }
         }
         private string _username;
-        public string username {
+        public string Username {
             get {
                 return _username;
             }
@@ -55,7 +55,7 @@ namespace RemedyAPI {
             }
         }
         private string _password;
-        public string password {
+        public string Password {
             set {
                 if ( String.IsNullOrWhiteSpace( value ) ) {
                     throw new ArgumentException( "Password must not be blank." );
@@ -64,7 +64,7 @@ namespace RemedyAPI {
             }
         }
         private uint _maxRecords;
-        public int maxRecords {
+        public int MaxRecords {
             get {
                 return Convert.ToInt32( _maxRecords );
             }
@@ -74,7 +74,7 @@ namespace RemedyAPI {
             }
         }
         private double _cacheTime;
-        public int cacheTime {
+        public int CacheTime {
             get {
                 return Convert.ToInt32( _cacheTime );
             }
@@ -83,7 +83,7 @@ namespace RemedyAPI {
                 _cacheTime = Convert.ToDouble( value );
             }
         }
-        private int[] fields {
+        private static int[] Fields {
             get {
                 return Enum.GetValues( typeof( FieldId ) ).Cast<int>().ToArray();
             }
@@ -99,12 +99,12 @@ namespace RemedyAPI {
         /// <param name="maxRecords">Maximum number of records to return in queries</param>
         /// <param name="cacheTime">Length of time to cache results for</param>
         public Server( string username, string password, string server = "a-rrm-ars-p", string form = "HPD:Help Desk", int maxRecords = 500, int cacheTime = 60 ) {
-            this.username = username;
-            this.password = password;
-            serverName = server;
-            formName = form;
-            this.maxRecords = maxRecords;
-            this.cacheTime = cacheTime;
+            Username = username;
+            Password = password;
+            ServerName = server;
+            FormName = form;
+            MaxRecords = maxRecords;
+            CacheTime = cacheTime;
         }
 
         private void Login() {
@@ -137,15 +137,15 @@ namespace RemedyAPI {
 
         private void RunQuery( Query query ) {
             string queryString = query.ToString();
-            var results = cache[queryString] as Results;
+            var results = _cache[queryString] as Results;
 
             if ( results == null ) {
-                var efvl = _arserver.GetListEntryWithFields( _formName, queryString, fields, 0, _maxRecords );
+                var efvl = _arserver.GetListEntryWithFields( _formName, queryString, Fields, 0, _maxRecords );
                 results = new Results( efvl );
-                cache.Set( queryString, results, DateTime.Now.AddSeconds( _cacheTime ) );
+                _cache.Set( queryString, results, DateTime.Now.AddSeconds( _cacheTime ) );
             }
 
-            query.results = results;
+            query.Results = results;
         }
     }
 }

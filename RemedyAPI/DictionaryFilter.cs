@@ -9,11 +9,11 @@ namespace RemedyAPI {
         /// <summary>
         /// The scope of the filter.
         /// </summary>
-        protected abstract string scope { get; }
+        protected abstract string Scope { get; }
         /// <summary>
         /// The Regex validation to be applied when setting filter values.
         /// </summary>
-        protected abstract string validation { get; }
+        protected abstract string Validation { get; }
 
         /// <summary>
         /// Create new empty filter list.
@@ -43,7 +43,7 @@ namespace RemedyAPI {
             if ( String.IsNullOrWhiteSpace(filter) ) {
                 throw new ArgumentException( "Filter must not be blank." );
             }
-            if ( !Regex.IsMatch( filter, validation ) ) {
+            if ( !Regex.IsMatch( filter, Validation ) ) {
                 throw new ArgumentException( string.Format( "{0} contains invalid characers.", filter ) );
             }
             base.Add( filter, exclude );
@@ -64,8 +64,8 @@ namespace RemedyAPI {
         /// <returns>Filter list as query string.</returns>
         public override string ToString() {
             var parts = new[] { 
-                String.Join( " OR ", this.Where( f => f.Value == false ).Select( f => String.Format( "\'{0}\' = \"{1}\"", scope, f.Key ) ) ),
-                String.Join( " AND ", this.Where( f => f.Value ).Select( f => String.Format( "\'{0}\' != \"{1}\"", scope, f.Key ) ) )
+                String.Join( " OR ", this.Where( f => f.Value == false ).Select( f => String.Format( "\'{0}\' = \"{1}\"", Scope, f.Key ) ) ),
+                String.Join( " AND ", this.Where( f => f.Value ).Select( f => String.Format( "\'{0}\' != \"{1}\"", Scope, f.Key ) ) )
             };
             return String.Join( " AND ", parts.Where( p => String.IsNullOrWhiteSpace(p) == false ).Select( p => String.Format( "({0})", p ) ) );
         }
@@ -73,12 +73,12 @@ namespace RemedyAPI {
 
     public class Users : DictionaryFilter {
 
-        protected override string scope {
+        protected override string Scope {
             get {
                 return "Assignee";
             }
         }
-        protected override string validation {
+        protected override string Validation {
             get {
                 return @"^[a-zA-Z0-9\-\ ]+$";
             }
@@ -87,12 +87,12 @@ namespace RemedyAPI {
 
     public class Groups : DictionaryFilter {
 
-        protected override string scope {
+        protected override string Scope {
             get {
                 return "Assigned Group";
             }
         }
-        protected override string validation {
+        protected override string Validation {
             get {
                 return @"^[a-zA-Z0-9\:\-\&\ ]+$";
             }
