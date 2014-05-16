@@ -17,7 +17,7 @@ namespace RemedyAPI_Example {
         private readonly BackgroundWorker _bw = new BackgroundWorker();
         private readonly Timer _timer = new Timer();
         private string _path;
-        private Database _db = new Database();
+        private Database _db;
 
         public MainForm() {
             InitializeComponent();
@@ -55,6 +55,8 @@ namespace RemedyAPI_Example {
                 MessageBox.Show( "Invalid password", "Oops", MessageBoxButtons.OK, MessageBoxIcon.Error );
                 return;
             }
+
+            _db = new Database(_path);
 
             _remedy = new Server( username, password ) { 
                 CacheTime = 45
@@ -128,7 +130,7 @@ namespace RemedyAPI_Example {
 
             var flotData = new List<FlotSeries>();
             flotData.Add(new FlotSeries( "Outstanding", dbResults, 1 ));
-            flotData.Add(new FlotSeries( "Submitted", dbResults, 2 ));
+            flotData.Add( new FlotSeries( "Submitted", dbResults, 2 ) );
             flotData.Add(new FlotSeries( "Resolved", dbResults, 3 ));
             JSON.WritetoFile( flotData, _path + "results.json" );
         }

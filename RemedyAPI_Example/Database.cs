@@ -7,10 +7,11 @@ using System.Data;
 namespace RemedyAPI_Example {
     class Database {
 
-        private string DatabaseLocation = @"remedy.db";
+        private string DatabaseLocation;
         private SQLiteConnection m_dbConnection;
 
-        public Database() {
+        public Database( string path) {
+            DatabaseLocation = path + "remedy.db";
             m_dbConnection = new SQLiteConnection( string.Format( "Data Source={0};", DatabaseLocation ) );
             if ( !File.Exists( DatabaseLocation ) ) {
                 SQLiteConnection.CreateFile( DatabaseLocation );
