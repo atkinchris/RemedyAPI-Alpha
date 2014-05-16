@@ -1,12 +1,13 @@
-﻿using RemedyAPI;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.IO;
 using System.Security.Principal;
 using System.Text;
 using System.Timers;
 using System.Windows.Forms;
+using RemedyAPI;
 using Timer = System.Timers.Timer;
+using System.Collections.Generic;
 
 namespace RemedyAPI_Example {
     public partial class MainForm : Form {
@@ -16,6 +17,7 @@ namespace RemedyAPI_Example {
         private readonly BackgroundWorker _bw = new BackgroundWorker();
         private readonly Timer _timer = new Timer();
         private string _resultsPath;
+        private Database _db = new Database();
 
         public MainForm() {
             InitializeComponent();
@@ -140,6 +142,15 @@ namespace RemedyAPI_Example {
             using ( StreamWriter sw = File.AppendText( _resultsPath ) ) {
                 sw.WriteLine( output.ToString() );
             }
+
+            _db.Add( results[ "Outstanding" ], results[ "Submitted" ], results[ "Resolved" ] );
+            var dbResults = _db.GetData( 60 );
+
+            var flotData = new List<FlotSeries>();
+            flotData.Add(new FlotSeries( "Outstanding", dbResults, 1 ));
+            flotData.Add(new FlotSeries( "Submitted", dbResults, 2 ));
+            flotData.Add(new FlotSeries( "Resolved", dbResults, 3 ));
+            JSON.WritetoFile( flotData, @"results.json" );
         }
 
         private void browseButton_Click( object sender, EventArgs e ) {
