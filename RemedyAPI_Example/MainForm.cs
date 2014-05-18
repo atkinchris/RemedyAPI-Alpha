@@ -1,8 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
-using System.IO;
 using System.Security.Principal;
-using System.Text;
 using System.Timers;
 using System.Windows.Forms;
 using RemedyAPI;
@@ -56,9 +54,9 @@ namespace RemedyAPI_Example {
                 return;
             }
 
-            _db = new Database(_path);
+            _db = new Database( _path );
 
-            _remedy = new Server( username, password ) { 
+            _remedy = new Server( username, password ) {
                 CacheTime = 45
             };
             _queries = new Queries();
@@ -72,7 +70,7 @@ namespace RemedyAPI_Example {
 
             string today = DateTime.Today.ToShortDateString();
             _queries.Add( "Submitted", new Query( string.Format( "(\'{0}\' > \"{1}\")", "Submit Date", today ), groups ) { Status = StatusTypes.All } );
-            _queries.Add( "Resolved", new Query( string.Format( "(\'{0}\' > \"{1}\")", "Last Resolved Date", today ), groups ) { Status = StatusTypes.Closed} );
+            _queries.Add( "Resolved", new Query( string.Format( "(\'{0}\' > \"{1}\")", "Last Resolved Date", today ), groups ) { Status = StatusTypes.Closed } );
             var outstandingQuery = new Query( string.Format( "(\'{0}\' < \"{1}\")", "Status", "Resolved" ), groups );
             outstandingQuery.Users.Add( "Ian Taylor", true );
             _queries.Add( "Outstanding", outstandingQuery );
@@ -93,8 +91,7 @@ namespace RemedyAPI_Example {
             if ( start ) {
                 startButton.Click -= Start;
                 startButton.Click += Stop;
-            }
-            else {
+            } else {
                 startButton.Click -= Stop;
                 startButton.Click += Start;
             }
@@ -115,8 +112,7 @@ namespace RemedyAPI_Example {
         private void bw_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {
             if ( e.Error == null ) {
                 UpdateResults();
-            }
-            else {
+            } else {
                 statusLabel.Text = "Error: " + e.Error.Message;
             }
         }
@@ -125,14 +121,15 @@ namespace RemedyAPI_Example {
             statusLabel.Text = "Ready.";
             var results = _queries.GetResultsCount();
 
-            _db.Add( results[ "Outstanding" ], results[ "Submitted" ], results[ "Resolved" ] );
+            _db.Add( results["Outstanding"], results["Submitted"], results["Resolved"] );
             var dbResults = _db.GetData( 60 );
 
-            var flotData = new List<FlotSeries>();
-            flotData.Add(new FlotSeries( "Outstanding", dbResults, 1 ));
-            flotData.Add( new FlotSeries( "Submitted", dbResults, 2 ) );
-            flotData.Add(new FlotSeries( "Resolved", dbResults, 3 ));
-            JSON.WritetoFile( flotData, _path + "results.json" );
+            var flotData = new List<FlotSeries> {
+                new FlotSeries("Outstanding", dbResults, 1),
+                new FlotSeries("Submitted", dbResults, 2),
+                new FlotSeries("Resolved", dbResults, 3)
+            };
+            Json.WritetoFile( flotData, _path + "results.json" );
         }
 
         private void notifyIcon1_DoubleClick( object sender, EventArgs e ) {
