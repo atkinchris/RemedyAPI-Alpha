@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Data.SQLite;
 using System.IO;
 using System.Collections.Generic;
@@ -42,7 +43,7 @@ namespace RemedyAPI_Example {
             using ( var connect = new SQLiteConnection( @"Data Source=" + _databaseLocation ) ) {
                 connect.Open();
                 using ( var fmd = connect.CreateCommand() ) {
-                    fmd.CommandText = "SELECT * FROM Stack ORDER BY Timestamp";
+                    fmd.CommandText = "SELECT * FROM Stack ORDER BY Timestamp DESC";
                     fmd.CommandType = CommandType.Text;
                     var r = fmd.ExecuteReader();
 
@@ -64,7 +65,7 @@ namespace RemedyAPI_Example {
                     }
                 }
             }
-            return data;
+            return data.OrderBy( x => x.Key ).ToDictionary( x => x.Key, x => x.Value );
         }
 
     }
