@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-using System.IO;
+﻿using System.IO;
+using Newtonsoft.Json;
 
-namespace RemedyAPI_Example {
+namespace RemedyLogger {
     static class Json {
 
         static public void WritetoFile(object obj, string filename) {

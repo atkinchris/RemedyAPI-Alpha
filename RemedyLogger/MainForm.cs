@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Security.Principal;
 using System.Timers;
 using System.Windows.Forms;
 using RemedyAPI;
 using Timer = System.Timers.Timer;
-using System.Collections.Generic;
 
-namespace RemedyAPI_Example {
+namespace RemedyLogger {
     public partial class MainForm : Form {
 
         private Queries _queries;
@@ -51,6 +52,11 @@ namespace RemedyAPI_Example {
 
             if ( string.IsNullOrEmpty( password ) ) {
                 MessageBox.Show( "Invalid password", "Oops", MessageBoxButtons.OK, MessageBoxIcon.Error );
+                return;
+            }
+
+            if ( !Directory.Exists( _path ) ) {
+                MessageBox.Show( "Invalid directory", "Oops", MessageBoxButtons.OK, MessageBoxIcon.Error );
                 return;
             }
 

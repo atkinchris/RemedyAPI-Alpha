@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Linq;
-using System.Data.SQLite;
-using System.IO;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
+using System.Linq;
+using System.Data.SQLite;
 
-namespace RemedyAPI_Example {
+namespace RemedyLogger {
     class Database {
 
         private readonly string _databaseLocation;

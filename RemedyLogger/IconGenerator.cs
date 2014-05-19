@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Drawing.Text;
 
-namespace RemedyAPI_Example {
+namespace RemedyLogger {
     static class IconGenerator {
         public static Icon GetIcon( string text ) {
             var bitmap = new Bitmap( 32, 32 );

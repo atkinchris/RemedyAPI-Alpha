@@ -1,13 +1,11 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio Express 2013 for Windows Desktop
-VisualStudioVersion = 12.0.30110.0
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemedyAPI", "RemedyAPI\RemedyAPI.csproj", "{B7531505-8823-4F98-96F8-94F3B9FDE7B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemedyAPI_Example", "RemedyAPI_Example\RemedyAPI_Example.csproj", "{B4C6A31F-1EF9-4547-9947-01D5E34AE104}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemedyAPI_Test", "RemedyAPI_Test\RemedyAPI_Test.csproj", "{67B5F7CF-4685-4751-84E2-1D96D49A73F1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemedyLogger", "RemedyLogger\RemedyLogger.csproj", "{B4C6A31F-1EF9-4547-9947-01D5E34AE104}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,16 +37,6 @@ Global
 		{B4C6A31F-1EF9-4547-9947-01D5E34AE104}.Release|Mixed Platforms.Build.0 = Release|x86
 		{B4C6A31F-1EF9-4547-9947-01D5E34AE104}.Release|x86.ActiveCfg = Release|x86
 		{B4C6A31F-1EF9-4547-9947-01D5E34AE104}.Release|x86.Build.0 = Release|x86
-		{67B5F7CF-4685-4751-84E2-1D96D49A73F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{67B5F7CF-4685-4751-84E2-1D96D49A73F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{67B5F7CF-4685-4751-84E2-1D96D49A73F1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{67B5F7CF-4685-4751-84E2-1D96D49A73F1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{67B5F7CF-4685-4751-84E2-1D96D49A73F1}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{67B5F7CF-4685-4751-84E2-1D96D49A73F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{67B5F7CF-4685-4751-84E2-1D96D49A73F1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{67B5F7CF-4685-4751-84E2-1D96D49A73F1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{67B5F7CF-4685-4751-84E2-1D96D49A73F1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{67B5F7CF-4685-4751-84E2-1D96D49A73F1}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
