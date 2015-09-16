@@ -19,7 +19,7 @@ namespace RemedyAPI {
         /// <returns>String of results and their counts.</returns>
         public string GetResultsString() {
             var results = GetResultsCount();
-            return String.Join( Environment.NewLine, results.Select( r => r.Key + ": " + r.Value ) );
+            return string.Join( Environment.NewLine, results.Select( r => r.Key + ": " + r.Value ) );
         }
     }
 }
